@@ -58,11 +58,11 @@ export const authOptions: any = {
             });
 
             await newUser.save();
-            // return true;
-            return { ...user, role: newUser.role };
+            return true;
+            // return { ...user, role: newUser.role };
           }
-          // return true;
-          return { ...user, role: existingUser.role };
+          return true;
+          // return { ...user, role: existingUser.role };
         } catch (err) {
           console.log("Error saving user", err);
           return false;
