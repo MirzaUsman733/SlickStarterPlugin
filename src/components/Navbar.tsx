@@ -7,7 +7,8 @@ const Navbar = () => {
   const { data: session }: any = useSession();
   console.log(session)
   return (
-    <div>
+    <div className="container-lg mx-auto">
+
       <ul className="flex justify-between m-10 item-center">
         <div>
           <Link href="/">
