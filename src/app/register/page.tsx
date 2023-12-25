@@ -25,9 +25,9 @@ const Register = () => {
     const email = e.target[1].value;
     const password = e.target[2].value;
     const role = "user";
-if(!name){
-  setError("Name cannot set")
-}
+    if (!name) {
+      setError("Name cannot set");
+    }
     if (!isValidEmail(email)) {
       setError("Email is invalid");
       return;

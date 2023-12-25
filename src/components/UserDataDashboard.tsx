@@ -93,8 +93,10 @@
 
 
 
+"use client"
 // "use client"
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface UserData {
@@ -104,38 +106,10 @@ interface UserData {
   role: string;
 }
 
-const UserDetails: React.FC<{ user: UserData; onClose: () => void }> = ({
-  user,
-  onClose,
-}) => (
-  <div className="absolute top-0 left-0 w-full h-full bg-opacity-50 bg-gray-500 flex items-center justify-center">
-    <div className="bg-white p-4">
-      <h2 className="text-2xl font-bold mb-4">{user.name}'s Details</h2>
-      <div>
-        <p>
-          <span className="font-bold">Name:</span> {user.name}
-        </p>
-        <p>
-          <span className="font-bold">Email:</span> {user.email}
-        </p>
-        <p>
-          <span className="font-bold">Role:</span> {user.role}
-        </p>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 mt-4"
-          onClick={onClose}
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
 const UserDataDashboard: React.FC = () => {
   const [userData, setUserData] = useState<UserData[]>([]);
-  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -158,12 +132,9 @@ const UserDataDashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleUserClick = (user: UserData) => {
-    setSelectedUser(user);
-  };
-
-  const handleCloseDetails = () => {
-    setSelectedUser(null);
+  const handleUserClick = (userDataInfo: string) => {
+    // Navigate to the dynamic user page
+    router.push(`/dashboard/${userDataInfo}`);
   };
 
   return (
@@ -187,7 +158,7 @@ const UserDataDashboard: React.FC = () => {
             </thead>
             <tbody>
               {userData.map((user) => (
-                <tr key={user._id} onClick={() => handleUserClick(user)}>
+                <tr key={user._id} onClick={() => handleUserClick(user._id)}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.name}
@@ -209,9 +180,6 @@ const UserDataDashboard: React.FC = () => {
           </table>
         </div>
       </div>
-      {selectedUser && (
-        <UserDetails user={selectedUser} onClose={handleCloseDetails} />
-      )}
     </div>
   );
 };
