@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import axios from "axios";
 const ChatGptPrompt: React.FC = () => {
@@ -11,11 +11,14 @@ const ChatGptPrompt: React.FC = () => {
   const [originalPrompt, setOriginalPrompt] = useState<string>("");
   const [articleGenerated, setArticleGenerated] = useState<boolean>(false);
   const [outlines, setOutlines] = useState<string[]>([]);
-
+   const [selectedTitle, setSelectedTitle] = useState<string>("");
+   const [responsesData, setResponsesData] = useState<
+     { prompt: string; selectedTitle: string; totalUsedToken: number }[]
+   >([]);
    const updateTotalTokensUsed = (tokens: number) => {
     setTotalTokensUsed((prevTotalTokensUsed) => prevTotalTokensUsed + tokens);
   };
-
+const selectedTitleRef = useRef<string>("");
   useEffect(() => {
     // Display total tokens used across all prompts
     if (totalTokensUsed > 0) {
@@ -64,6 +67,10 @@ const ChatGptPrompt: React.FC = () => {
       updateTotalTokensUsed(tokensUsedInResponse);
       console.log(response);
       setOriginalPrompt(prompt);
+      setResponsesData((prevData) => [
+        ...prevData,
+        { prompt, selectedTitle: "", totalUsedToken: 0 },
+      ]);
     } catch (error) {
       console.error("Error fetching OpenAI response:", error);
     }
@@ -160,6 +167,17 @@ const generateArticleForTitle = async (selectedTitle: string) => {
     updateTotalTokensUsed(tokensUsedInResponse);
     console.log(outlinesData.usage.total_tokens);
     setOutlines(outlines);
+    // setSelectedTitle((prevSelectedTitle) => {
+    //   selectedTitleRef.current = prevSelectedTitle;
+    //   return prevSelectedTitle;
+    // });
+    selectedTitleRef.current = selectedTitle;
+    const updatedData = responsesData.map((dataItem) =>
+      dataItem.prompt === originalPrompt
+        ? { ...dataItem, selectedTitle: selectedTitle }
+        : dataItem
+    );
+setResponsesData(updatedData);
     // Step 2: Get content for each outline
     const responses: string[] = [];
 
@@ -203,11 +221,29 @@ const generateArticleForTitle = async (selectedTitle: string) => {
     setResponse(responses.join("\n"));
     setOriginalPrompt(selectedTitle);
     setArticleGenerated(true);
+    const updatedDataAfterGettingAllToken = responsesData.map((dataItem) =>
+      dataItem.prompt === originalPrompt
+        ? { ...dataItem, totalUsedToken: totalTokensUsed }
+        : dataItem
+    );
+    setResponsesData(updatedDataAfterGettingAllToken);
   } catch (error) {
     console.error("Error generating article:", error);
   }
 };
-
+useEffect(() => {
+  // Update responsesData array when totalTokensUsed changes
+  if (totalTokensUsed > 4200) {
+    setResponsesData((prevData) => [
+      ...prevData,
+      {
+        prompt: originalPrompt,
+        selectedTitle: selectedTitleRef.current,
+        totalUsedToken: totalTokensUsed,
+      },
+    ]);
+  }
+}, [totalTokensUsed]);
   return (
     <div className="container mx-auto p-4">
       <h1
@@ -327,6 +363,20 @@ const generateArticleForTitle = async (selectedTitle: string) => {
         <p className="mt-2 text-blue-600">
           Total Tokens Used Across All Prompts: {totalTokensUsed}
         </p>
+      )}
+      {responsesData.length > 4500 && (
+        <div>
+          <h2 className="text-2xl font-bold text-blue-600">Stored Data:</h2>
+          <ul className="list-disc list-inside">
+            {responsesData.map((data, index) => (
+              <li className="list-none" key={index}>
+                <p>{`Prompt: ${data.prompt}`}</p>
+                <p>{`Selected Title: ${data.selectedTitle}`}</p>
+                <p>{`Total Tokens Used: ${data.totalUsedToken}`}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );
