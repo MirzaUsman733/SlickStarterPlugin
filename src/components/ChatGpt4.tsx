@@ -4,28 +4,34 @@ import React, { useState, useEffect, useRef } from "react";
 
 import axios from "axios";
 const ChatGptPrompt: React.FC = () => {
- const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
- const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
+  const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
+  const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
   const [response, setResponse] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
   const [originalPrompt, setOriginalPrompt] = useState<string>("");
   const [articleGenerated, setArticleGenerated] = useState<boolean>(false);
   const [outlines, setOutlines] = useState<string[]>([]);
-   const [selectedTitle, setSelectedTitle] = useState<string>("");
-   const [responsesData, setResponsesData] = useState<
-     { prompt: string; selectedTitle: string; totalUsedToken: number }[]
-   >([]);
-   const updateTotalTokensUsed = (tokens: number) => {
+  const [selectedTitle, setSelectedTitle] = useState<string>("");
+  const [responsesData, setResponsesData] = useState<
+    { prompt: string; selectedTitle: string; totalUsedToken: number }[]
+  >([]);
+  const updateTotalTokensUsed = (tokens: number) => {
     setTotalTokensUsed((prevTotalTokensUsed) => prevTotalTokensUsed + tokens);
   };
-const selectedTitleRef = useRef<string>("");
+  const selectedTitleRef = useRef<string>("");
+  const totalTokenRef = useRef<number>(0);
   useEffect(() => {
     // Display total tokens used across all prompts
     if (totalTokensUsed > 0) {
       console.log(`Total Tokens Used Across All Prompts: ${totalTokensUsed}`);
+
     }
   }, [totalTokensUsed]);
+ if (articleGenerated) {
+    console.log("Total Tokens: ", totalTokensUsed);
+    totalTokenRef.current = totalTokensUsed;
 
+  }
   const fetchOpenAIResponse = async () => {
     try {
       if (!prompt.trim()) {
@@ -58,12 +64,15 @@ const selectedTitleRef = useRef<string>("");
           },
         }
       );
-//  await axios.post("/api/storePrompt", { prompt });
+      //  await axios.post("/api/storePrompt", { prompt });
       setResponse(data.choices[0].message.content);
       console.log(data);
       console.log(data.usage.total_tokens);
       const tokensUsedInResponse = data.usage.total_tokens;
-       setTokensUsedPerPrompt((prevTokens) => [...prevTokens, tokensUsedInResponse]);
+      setTokensUsedPerPrompt((prevTokens) => [
+        ...prevTokens,
+        tokensUsedInResponse,
+      ]);
       updateTotalTokensUsed(tokensUsedInResponse);
       console.log(response);
       setOriginalPrompt(prompt);
@@ -110,13 +119,13 @@ const selectedTitleRef = useRef<string>("");
       );
 
       setResponse(data.choices[0].message.content);
-       const tokensUsedInResponse = data.usage.total_tokens;
-       setTokensUsedPerPrompt((prevTokens) => [
-         ...prevTokens,
-         tokensUsedInResponse,
-       ]);
-       updateTotalTokensUsed(tokensUsedInResponse);
-       console.log(data.usage.total_tokens);
+      const tokensUsedInResponse = data.usage.total_tokens;
+      setTokensUsedPerPrompt((prevTokens) => [
+        ...prevTokens,
+        tokensUsedInResponse,
+      ]);
+      updateTotalTokensUsed(tokensUsedInResponse);
+      console.log(data.usage.total_tokens);
       console.log(response);
       setOriginalPrompt(prompt);
     } catch (error) {
@@ -124,72 +133,24 @@ const selectedTitleRef = useRef<string>("");
     }
   };
 
-const generateArticleForTitle = async (selectedTitle: string) => {
-  try {
-    if (!selectedTitle.trim()) {
-      return;
-    }
-
-    const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-    const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
-
-    // Step 1: Get outlines
-    const { data: outlinesData } = await axios.post(
-      openaiEndpoint,
-      {
-        model: "gpt-4",
-        messages: [
-          {
-            role: "user",
-            content: `write the 10 outline that cannot start with the numbers on:  "${selectedTitle}" only give me outlines not sub outlines`,
-          },
-        ],
-        temperature: 0,
-        max_tokens: 7200,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
+  const generateArticleForTitle = async (selectedTitle: string) => {
+    try {
+      if (!selectedTitle.trim()) {
+        return;
       }
-    );
-      console.log(outlinesData.choices[0].message.content.split("\n"));
-    const outlines = outlinesData.choices[0].message.content.split("\n");
-    const tokensUsedInResponse = outlinesData.usage.total_tokens;
-    setTokensUsedPerPrompt((prevTokens) => [
-      ...prevTokens,
-      tokensUsedInResponse,
-    ]);
-    updateTotalTokensUsed(tokensUsedInResponse);
-    console.log(outlinesData.usage.total_tokens);
-    setOutlines(outlines);
-    // setSelectedTitle((prevSelectedTitle) => {
-    //   selectedTitleRef.current = prevSelectedTitle;
-    //   return prevSelectedTitle;
-    // });
-    selectedTitleRef.current = selectedTitle;
-    const updatedData = responsesData.map((dataItem) =>
-      dataItem.prompt === originalPrompt
-        ? { ...dataItem, selectedTitle: selectedTitle }
-        : dataItem
-    );
-setResponsesData(updatedData);
-    // Step 2: Get content for each outline
-    const responses: string[] = [];
 
-    for (const outline of outlines) {
-      const { data } = await axios.post(
+      const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+      const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
+
+      // Step 1: Get outlines
+      const { data: outlinesData } = await axios.post(
         openaiEndpoint,
         {
           model: "gpt-4",
           messages: [
             {
               role: "user",
-              content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable output in the html tags`,
+              content: `write the 10 outline that cannot start with the numbers on:  "${selectedTitle}" only give me outlines not sub outlines`,
             },
           ],
           temperature: 0,
@@ -205,45 +166,140 @@ setResponsesData(updatedData);
           },
         }
       );
-
-      console.log(data.choices[0].message.content)
-      responses.push(data.choices[0].message.content);
-      const tokensUsedInResponse = data.usage.total_tokens;
+      console.log(outlinesData.choices[0].message.content.split("\n"));
+      const outlines = outlinesData.choices[0].message.content.split("\n");
+      const tokensUsedInResponse = outlinesData.usage.total_tokens;
       setTokensUsedPerPrompt((prevTokens) => [
         ...prevTokens,
         tokensUsedInResponse,
       ]);
       updateTotalTokensUsed(tokensUsedInResponse);
-      console.log(data.usage.total_tokens);
-    }
+      console.log(outlinesData.usage.total_tokens);
+      setOutlines(outlines);
+      // setSelectedTitle((prevSelectedTitle) => {
+      //   selectedTitleRef.current = prevSelectedTitle;
+      //   return prevSelectedTitle;
+      // });
+      selectedTitleRef.current = selectedTitle;
+      const updatedData = responsesData.map((dataItem) =>
+        dataItem.prompt === originalPrompt
+          ? { ...dataItem, selectedTitle: selectedTitle }
+          : dataItem
+      );
+      setResponsesData(updatedData);
+      // Step 2: Get content for each outline
+      const responses: string[] = [];
 
-    // Display all assistant data on the screen
-    setResponse(responses.join("\n"));
-    setOriginalPrompt(selectedTitle);
+      for (const outline of outlines) {
+        const { data } = await axios.post(
+          openaiEndpoint,
+          {
+            model: "gpt-4",
+            messages: [
+              {
+                role: "user",
+                content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable output in the html tags`,
+              },
+            ],
+            temperature: 0,
+            max_tokens: 7200,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${apiKey}`,
+            },
+          }
+        );
+
+        console.log(data.choices[0].message.content);
+        responses.push(data.choices[0].message.content);
+        const tokensUsedInResponse = data.usage.total_tokens;
+        setTokensUsedPerPrompt((prevTokens) => [
+          ...prevTokens,
+          tokensUsedInResponse,
+        ]);
+        updateTotalTokensUsed(tokensUsedInResponse);
+        console.log(data.usage.total_tokens);
+      }
+
+      // Display all assistant data on the screen
+      setResponse(responses.join("\n"));
+      setOriginalPrompt(selectedTitle);
+      setArticleGenerated(true);
+      const updatedDataAfterGettingAllToken = responsesData.map((dataItem) =>
+        dataItem.prompt === originalPrompt
+          ? { ...dataItem, totalUsedToken: totalTokenRef.current }
+          : dataItem
+      );
+      setResponsesData(updatedDataAfterGettingAllToken);
+    } catch (error) {
+      console.error("Error generating article:", error);
+    }
+  };
+  const storeResponsesData = async (prompt: any, selectedTitle: any, totalUsedToken: any) => {
     setArticleGenerated(true);
-    const updatedDataAfterGettingAllToken = responsesData.map((dataItem) =>
-      dataItem.prompt === originalPrompt
-        ? { ...dataItem, totalUsedToken: totalTokensUsed }
-        : dataItem
-    );
-    setResponsesData(updatedDataAfterGettingAllToken);
-  } catch (error) {
-    console.error("Error generating article:", error);
-  }
-};
-useEffect(() => {
-  // Update responsesData array when totalTokensUsed changes
-  if (totalTokensUsed > 4200) {
-    setResponsesData((prevData) => [
-      ...prevData,
-      {
-        prompt: originalPrompt,
-        selectedTitle: selectedTitleRef.current,
-        totalUsedToken: totalTokensUsed,
-      },
-    ]);
-  }
-}, [totalTokensUsed]);
+    try {
+      const response = await fetch("/api/storeResponsesData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          selectedTitle,
+          totalUsedToken,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to store data: ${response.statusText}`);
+      }
+
+      console.log("Data submitted successfully");
+      
+    } catch (error) {
+      console.error("Error storing data:", error);
+    }
+  };
+  useEffect(() => {
+    // setArticleGenerated(true);
+    // Update responsesData array when totalTokensUsed changes
+    if (totalTokensUsed > 200) {
+      setResponsesData((prevData) => [
+        ...prevData,
+        {
+          prompt: prompt,
+          selectedTitle: selectedTitleRef.current,
+          totalUsedToken: totalTokenRef.current,
+        },
+      ]);
+      
+      // if (totalTokensUsed > 4200) {
+      //   storeResponsesData(prompt, selectedTitleRef.current, totalTokensUsed);
+      // }
+    }
+  }, [totalTokensUsed]);
+if (articleGenerated) {
+  console.log("Total Response Data: ", responsesData);
+}
+  // if (articleGenerated) {
+  //   console.log("Total Tokens: ", totalTokensUsed);
+  //   totalTokenRef.current = totalTokensUsed;
+  //    setResponsesData((prevData) => [
+  //      ...prevData,
+  //      {
+  //        prompt: prompt,
+  //        selectedTitle: selectedTitleRef.current,
+  //        totalUsedToken: totalTokensUsed,
+  //      },
+  //    ]);
+
+  // }
+  
   return (
     <div className="container mx-auto p-4">
       <h1
@@ -297,7 +353,7 @@ useEffect(() => {
           </ul>
         </div>
       )}
-      {articleGenerated && outlines.length > 0 && (
+      { outlines.length > 0 && (
         <div>
           <h2>Table of content:</h2>
           <ul className="list-group list-group-flush">
@@ -364,7 +420,7 @@ useEffect(() => {
           Total Tokens Used Across All Prompts: {totalTokensUsed}
         </p>
       )}
-      {responsesData.length > 4500 && (
+      {totalTokensUsed > 4200 && (
         <div>
           <h2 className="text-2xl font-bold text-blue-600">Stored Data:</h2>
           <ul className="list-disc list-inside">
