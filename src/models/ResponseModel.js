@@ -14,7 +14,7 @@ const ResponsesDataModel = new Schema(
     },
     totalTokensUsed: {
       type: Number,
-      required: true,
+      default: 0, 
     },
   },
   { versionKey: false },

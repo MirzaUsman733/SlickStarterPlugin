@@ -1,9 +1,11 @@
-import ResponsesDataModel from "@/models/ResponseModel"; // Replace with the actual path to your model
+import ResponsesDataModel from "@/models/ResponseModel";
 import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
-  const { prompt, selectedTitle, totalTokensUsed } = await request.json();
+  const { prompt, selectedTitle,
+     totalTokensUsed 
+    } = await request.json();
 // const requestData = await request.json();
 // console.log('Received request data:', requestData);
 // const { prompt, selectedTitle, totalTokensUsed } = requestData;

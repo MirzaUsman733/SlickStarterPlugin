@@ -9,7 +9,7 @@ const page: React.FC = async () => {
         redirect("/");
       }
   return (
-    <div>
+    <div className="container-lg mx-auto">
       <h1>Welcome to the Home Page</h1>
       <div>Frontend Home</div>
       <ChatGptPrompt/>

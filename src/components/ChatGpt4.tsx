@@ -21,7 +21,6 @@ const ChatGptPrompt: React.FC = () => {
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
   useEffect(() => {
-    // Display total tokens used across all prompts
     if (totalTokensUsed > 0) {
       console.log(`Total Tokens Used Across All Prompts: ${totalTokensUsed}`);
     }
@@ -62,7 +61,6 @@ const ChatGptPrompt: React.FC = () => {
           },
         }
       );
-      //  await axios.post("/api/storePrompt", { prompt });
       setResponse(data.choices[0].message.content);
       console.log(data);
       console.log(data.usage.total_tokens);
@@ -174,10 +172,6 @@ const ChatGptPrompt: React.FC = () => {
       updateTotalTokensUsed(tokensUsedInResponse);
       console.log(outlinesData.usage.total_tokens);
       setOutlines(outlines);
-      // setSelectedTitle((prevSelectedTitle) => {
-      //   selectedTitleRef.current = prevSelectedTitle;
-      //   return prevSelectedTitle;
-      // });
       selectedTitleRef.current = selectedTitle;
       const updatedData = responsesData.map((dataItem) =>
         dataItem.prompt === originalPrompt
@@ -224,7 +218,6 @@ const ChatGptPrompt: React.FC = () => {
         console.log(data.usage.total_tokens);
       }
 
-      // Display all assistant data on the screen
       setResponse(responses.join("\n"));
       setOriginalPrompt(selectedTitle);
       setArticleGenerated(true);
@@ -238,38 +231,32 @@ const ChatGptPrompt: React.FC = () => {
       console.error("Error generating article:", error);
     }
   };
-  const storeResponsesData = async (
-    prompt: any,
-    selectedTitle: any,
-    totalUsedToken: any
-  ) => {
-    setArticleGenerated(true);
-    try {
-      const response = await fetch("/api/storeResponsesData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt,
-          selectedTitle,
-          totalUsedToken,
-        }),
-      });
+  const storeResponsesData = async () =>
+    {
+      try {
+        const response = await fetch("/api/storeResponsesData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: prompt,
+            selectedTitle: selectedTitleRef.current,
+            totalTokensUsed: totalTokenRef.current,
+          }),
+        });
 
-      if (!response.ok) {
-        throw new Error(`Failed to store data: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Failed to store data: ${response.statusText}`);
+        }
+
+        console.log("Data submitted successfully");
+      } catch (error) {
+        console.error("Error storing data:", error);
       }
-
-      console.log("Data submitted successfully");
-    } catch (error) {
-      console.error("Error storing data:", error);
-    }
-  };
+    };
   useEffect(() => {
-    // setArticleGenerated(true);
-    // Update responsesData array when totalTokensUsed changes
-    if (totalTokensUsed > 200) {
+    if (totalTokensUsed > 4200) {
       setResponsesData((prevData) => [
         ...prevData,
         {
@@ -278,50 +265,11 @@ const ChatGptPrompt: React.FC = () => {
           totalUsedToken: totalTokenRef.current,
         },
       ]);
-
-      // if (totalTokensUsed > 4200) {
-      //   storeResponsesData(prompt, selectedTitleRef.current, totalTokensUsed);
-      // }
     }
-  }, [totalTokensUsed]);
+  }, []);
   if (articleGenerated) {
-    console.log("Total Response Data: ", responsesData);
-    console.log("Total Response data get from array", responsesData[1]);
-    console.log(
-      "Total Response data get from array prompt",
-      responsesData[1]?.prompt
-    );
-    console.log(
-      "Total Response data get from array selected title",
-      responsesData[1]?.selectedTitle
-    );
-    console.log(
-      "Total Response data get from array total tokens",
-      responsesData[1]?.totalUsedToken
-    );
-    const responseDataPrompt = responsesData[1]?.prompt;
-    const responseDataSelectedTitle = responsesData[1]?.selectedTitle;
-    const responseDataTotalToken = responsesData[1]?.totalUsedToken;
-    console.log(responseDataPrompt);
-    console.log(responseDataSelectedTitle);
-    console.log(responseDataTotalToken);
-
-    // storeResponsesData(responsesData[1].prompt, responsesData[1].selectedTitle,responsesData[1].totalUsedToken );
+    storeResponsesData()
   }
-  // if (articleGenerated) {
-  //   console.log("Total Tokens: ", totalTokensUsed);
-  //   totalTokenRef.current = totalTokensUsed;
-  //    setResponsesData((prevData) => [
-  //      ...prevData,
-  //      {
-  //        prompt: prompt,
-  //        selectedTitle: selectedTitleRef.current,
-  //        totalUsedToken: totalTokensUsed,
-  //      },
-  //    ]);
-
-  // }
-
   return (
     <div className="container mx-auto p-4">
       <h1
@@ -366,7 +314,7 @@ const ChatGptPrompt: React.FC = () => {
       </div>
       {originalPrompt && (
         <div className="bg-white shadow-md rounded p-4 my-3">
-          <ul className="list-disc list-inside">
+          <ul className="list-none list-inside">
             {originalPrompt.split("\n").map((line, index) => (
               <h1 className="bg-gray-200 p-2 mb-2 rounded" key={index}>
                 {line}
@@ -399,7 +347,7 @@ const ChatGptPrompt: React.FC = () => {
           <h2 className="text-2xl font-bold text-blue-600">
             Generated Titles:
           </h2>
-          <ul className="list-disc list-inside">
+          <ul className="list-none list-inside">
             {response.split("\n").map((title, index) => (
               <li
                 key={index}
@@ -430,7 +378,7 @@ const ChatGptPrompt: React.FC = () => {
           <h2 className="text-2xl font-bold text-blue-600">
             Tokens Used Per Prompt:
           </h2>
-          <ul className="list-disc list-inside">
+          <ul className="list-none list-inside">
             {tokensUsedPerPrompt.map((tokens, index) => (
               <li key={index}>{`Prompt ${index + 1}: ${tokens}`}</li>
             ))}
@@ -445,7 +393,7 @@ const ChatGptPrompt: React.FC = () => {
       {totalTokensUsed > 4200 && (
         <div>
           <h2 className="text-2xl font-bold text-blue-600">Stored Data:</h2>
-          <ul className="list-disc list-inside">
+          <ul className="list-none list-inside">
             {responsesData.map((data, index) => (
               <li className="list-none" key={index}>
                 <p>{`Prompt: ${data.prompt}`}</p>

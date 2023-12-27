@@ -12,28 +12,28 @@ const Dashboard = async () => {
 
   const userEmail = session?.user?.email;
   const allowedEmails = [
-    "usman@gmail.com",
+    "muhammadusman@gmail.com",
     "arbaz@gmail.com",
     "awais@gmail.com",
   ];
 
-   if (
-     userEmail !== undefined &&
-     userEmail !== null &&
-     allowedEmails.includes(userEmail)
-   ) {
-     return (
-       <div className="flex min-h-screen flex-col items-center justify-between">
-         Dashboard
-         <div>
-           <UserDataDashboard />
-         </div>
-       </div>
-     );
-   } else {
-     redirect("/frontend");
-     return null; // This is necessary to satisfy TypeScript
-   }
+  if (
+    userEmail !== undefined &&
+    userEmail !== null &&
+    allowedEmails.includes(userEmail)
+  ) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-between">
+        Dashboard
+        <div>
+          <UserDataDashboard />
+        </div>
+      </div>
+    );
+  } else {
+    redirect("/frontend");
+    return null; // This is necessary to satisfy TypeScript
+  }
 };
 
 export default Dashboard;
