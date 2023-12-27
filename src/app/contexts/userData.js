@@ -1,0 +1,100 @@
+// UserContext.js
+"use client"
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { getSession } from 'next-auth/react';
+
+const UserContext = createContext();
+
+export const UserProvider = ({ children }) => {
+    const [userData, setUserData] = useState([]);
+    const [userWithEmail, setUserWithEmail] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("/api/users", {
+                    method: "POST",
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setUserData(data.userData);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const checkSessionEmail = async () => {
+        const session = await getSession();
+        if (session) {
+            const userWithEmail = userData.find(user => user.email === session.user.email);
+
+            if (userWithEmail) {
+                setUserWithEmail(userWithEmail);
+            }
+        }
+    };
+
+    useEffect(() => {
+        checkSessionEmail();
+    }, [userData]);
+
+    const login = async (email, password) => {
+        // Assume you have a login API endpoint
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            // After a successful login, fetch the updated user data
+            await checkSessionEmail();
+        } catch (error) {
+            console.error("Error logging in:", error);
+        }
+    };
+
+    const logout = async () => {
+        // Assume you have a logout API endpoint
+        try {
+            const response = await fetch("/api/logout", {
+                method: "POST",
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            setUserWithEmail(null);
+        } catch (error) {
+            console.error("Error logging out:", error);
+        }
+    };
+
+    return (
+        <UserContext.Provider value={{ userWithEmail, login, logout }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export const useUser = () => {
+    const context = useContext(UserContext);
+    if (!context) {
+        throw new Error('useUser must be used within a UserProvider');
+    }
+    return context;
+};

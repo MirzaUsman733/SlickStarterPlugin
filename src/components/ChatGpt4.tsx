@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useUser } from "@/app/contexts/userData";
 interface ChatGptPromptProps {
   userEmail: string | null | undefined;
   userName: string | null | undefined;
@@ -23,6 +24,11 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
   };
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
+
+
+  const { userWithEmail } = useUser();
+  console.log(userWithEmail);
+
   useEffect(() => {
     if (totalTokensUsed > 0) {
       console.log(`Total Tokens Used Across All Prompts: ${totalTokensUsed}`);
