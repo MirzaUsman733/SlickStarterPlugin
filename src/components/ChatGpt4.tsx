@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-
+interface ChatGptPromptProps {
+  userEmail: string | null | undefined;
+  userName: string | null | undefined;
+}
 import axios from "axios";
-const ChatGptPrompt: React.FC = () => {
+const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) => {
   const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
   const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
   const [response, setResponse] = useState<string>("");
@@ -26,7 +29,6 @@ const ChatGptPrompt: React.FC = () => {
     }
   }, [totalTokensUsed]);
   if (articleGenerated) {
-    console.log("Total Tokens: ", totalTokensUsed);
     totalTokenRef.current = totalTokensUsed;
   }
   const fetchOpenAIResponse = async () => {
@@ -231,32 +233,33 @@ const ChatGptPrompt: React.FC = () => {
       console.error("Error generating article:", error);
     }
   };
-  const storeResponsesData = async () =>
-    {
-      try {
-        const response = await fetch("/api/storeResponsesData", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prompt: prompt,
-            selectedTitle: selectedTitleRef.current,
-            totalTokensUsed: totalTokenRef.current,
-          }),
-        });
+  const storeResponsesData = async () => {
+    try {
+      const response = await fetch("/api/storeResponsesData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: userName,
+          email: userEmail,
+          prompt: prompt,
+          selectedTitle: selectedTitleRef.current,
+          totalTokensUsed: totalTokenRef.current,
+        }),
+      });
 
-        if (!response.ok) {
-          throw new Error(`Failed to store data: ${response.statusText}`);
-        }
-
-        console.log("Data submitted successfully");
-      } catch (error) {
-        console.error("Error storing data:", error);
+      if (!response.ok) {
+        throw new Error(`Failed to store data: ${response.statusText}`);
       }
-    };
+
+      console.log("Data submitted successfully");
+    } catch (error) {
+      console.error("Error storing data:", error);
+    }
+  };
   useEffect(() => {
-    if (totalTokensUsed > 4200) {
+    if (totalTokensUsed > 4200 && articleGenerated) {
       setResponsesData((prevData) => [
         ...prevData,
         {
@@ -266,10 +269,12 @@ const ChatGptPrompt: React.FC = () => {
         },
       ]);
     }
-  }, []);
-  if (articleGenerated) {
-    storeResponsesData()
-  }
+  }, [totalTokensUsed, articleGenerated]);
+  useEffect(() => {
+    if (articleGenerated) {
+      storeResponsesData();
+    }
+  }, [articleGenerated]);
   return (
     <div className="container mx-auto p-4">
       <h1

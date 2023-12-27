@@ -3,7 +3,8 @@ import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
-  const { prompt, selectedTitle,
+  const { name,
+    email, prompt, selectedTitle,
      totalTokensUsed 
     } = await request.json();
 // const requestData = await request.json();
@@ -12,11 +13,12 @@ export const POST = async (request: any) => {
   await connect();
 
   const newEntry = new ResponsesDataModel({
+    name,
+    email,
     prompt,
     selectedTitle,
     totalTokensUsed,
   });
-  console.log("New Entry:", newEntry)
   try {
     await newEntry.save();
     console.log(newEntry)

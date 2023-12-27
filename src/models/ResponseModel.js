@@ -4,6 +4,15 @@ const { Schema } = mongoose;
 
 const ResponsesDataModel = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     prompt: {
       type: String,
       required: true,
@@ -15,6 +24,10 @@ const ResponsesDataModel = new Schema(
     totalTokensUsed: {
       type: Number,
       default: 0, 
+    },
+    currentTime: {
+      type: Date,
+      default: Date.now,
     },
   },
   { versionKey: false },
