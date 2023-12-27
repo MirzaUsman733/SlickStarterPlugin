@@ -24,13 +24,11 @@ const ChatGptPrompt: React.FC = () => {
     // Display total tokens used across all prompts
     if (totalTokensUsed > 0) {
       console.log(`Total Tokens Used Across All Prompts: ${totalTokensUsed}`);
-
     }
   }, [totalTokensUsed]);
- if (articleGenerated) {
+  if (articleGenerated) {
     console.log("Total Tokens: ", totalTokensUsed);
     totalTokenRef.current = totalTokensUsed;
-
   }
   const fetchOpenAIResponse = async () => {
     try {
@@ -240,7 +238,11 @@ const ChatGptPrompt: React.FC = () => {
       console.error("Error generating article:", error);
     }
   };
-  const storeResponsesData = async (prompt: any, selectedTitle: any, totalUsedToken: any) => {
+  const storeResponsesData = async (
+    prompt: any,
+    selectedTitle: any,
+    totalUsedToken: any
+  ) => {
     setArticleGenerated(true);
     try {
       const response = await fetch("/api/storeResponsesData", {
@@ -260,7 +262,6 @@ const ChatGptPrompt: React.FC = () => {
       }
 
       console.log("Data submitted successfully");
-      
     } catch (error) {
       console.error("Error storing data:", error);
     }
@@ -277,15 +278,36 @@ const ChatGptPrompt: React.FC = () => {
           totalUsedToken: totalTokenRef.current,
         },
       ]);
-      
+
       // if (totalTokensUsed > 4200) {
       //   storeResponsesData(prompt, selectedTitleRef.current, totalTokensUsed);
       // }
     }
   }, [totalTokensUsed]);
-if (articleGenerated) {
-  console.log("Total Response Data: ", responsesData);
-}
+  if (articleGenerated) {
+    console.log("Total Response Data: ", responsesData);
+    console.log("Total Response data get from array", responsesData[1]);
+    console.log(
+      "Total Response data get from array prompt",
+      responsesData[1]?.prompt
+    );
+    console.log(
+      "Total Response data get from array selected title",
+      responsesData[1]?.selectedTitle
+    );
+    console.log(
+      "Total Response data get from array total tokens",
+      responsesData[1]?.totalUsedToken
+    );
+    const responseDataPrompt = responsesData[1]?.prompt;
+    const responseDataSelectedTitle = responsesData[1]?.selectedTitle;
+    const responseDataTotalToken = responsesData[1]?.totalUsedToken;
+    console.log(responseDataPrompt);
+    console.log(responseDataSelectedTitle);
+    console.log(responseDataTotalToken);
+
+    // storeResponsesData(responsesData[1].prompt, responsesData[1].selectedTitle,responsesData[1].totalUsedToken );
+  }
   // if (articleGenerated) {
   //   console.log("Total Tokens: ", totalTokensUsed);
   //   totalTokenRef.current = totalTokensUsed;
@@ -299,7 +321,7 @@ if (articleGenerated) {
   //    ]);
 
   // }
-  
+
   return (
     <div className="container mx-auto p-4">
       <h1
@@ -353,7 +375,7 @@ if (articleGenerated) {
           </ul>
         </div>
       )}
-      { outlines.length > 0 && (
+      {outlines.length > 0 && (
         <div>
           <h2>Table of content:</h2>
           <ul className="list-group list-group-flush">
