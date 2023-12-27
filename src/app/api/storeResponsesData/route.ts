@@ -3,13 +3,8 @@ import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
-  const { name,
-    email, prompt, selectedTitle,
-     totalTokensUsed 
-    } = await request.json();
-// const requestData = await request.json();
-// console.log('Received request data:', requestData);
-// const { prompt, selectedTitle, totalTokensUsed } = requestData;
+  const { name, email, prompt, selectedTitle, totalTokensUsed } =
+    await request.json();
   await connect();
 
   const newEntry = new ResponsesDataModel({
@@ -21,7 +16,7 @@ export const POST = async (request: any) => {
   });
   try {
     await newEntry.save();
-    console.log(newEntry)
+    console.log(newEntry);
     return new NextResponse("User Response is saved", { status: 200 });
   } catch (err: any) {
     return new NextResponse(err, {

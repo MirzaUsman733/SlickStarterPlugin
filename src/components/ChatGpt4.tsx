@@ -7,7 +7,10 @@ interface ChatGptPromptProps {
   userName: string | null | undefined;
 }
 import axios from "axios";
-const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) => {
+const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
+  userEmail,
+  userName,
+}) => {
   const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
   const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
   const [response, setResponse] = useState<string>("");
@@ -24,7 +27,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
   };
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
-
 
   const { userWithEmail } = useUser();
   console.log(userWithEmail);

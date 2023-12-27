@@ -5,10 +5,9 @@ import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session }: any = useSession();
-  console.log(session)
+  console.log(session);
   return (
     <div className="container-lg mx-auto">
-
       <ul className="flex justify-between m-10 item-center">
         <div>
           <Link href="/">

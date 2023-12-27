@@ -23,7 +23,7 @@ const ResponsesDataModel = new Schema(
     },
     totalTokensUsed: {
       type: Number,
-      default: 0, 
+      default: 0,
     },
     currentTime: {
       type: Date,

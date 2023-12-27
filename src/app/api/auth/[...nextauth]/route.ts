@@ -7,13 +7,12 @@ import User from "@/models/User";
 import connect from "@/utils/db";
 
 export const authOptions: any = {
-  // Configure one or more authentication providers
   providers: [
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       credentials: {
-        name: {label: "Name", type: "text" },
+        name: { label: "Name", type: "text" },
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
@@ -28,7 +27,6 @@ export const authOptions: any = {
             );
             if (isPasswordCorrect) {
               return user;
-              //  return { ...user, role: user.role };
             }
           }
         } catch (err: any) {
@@ -40,7 +38,6 @@ export const authOptions: any = {
       clientId: process.env.GITHUB_ID ?? "",
       clientSecret: process.env.GITHUB_SECRET ?? "",
     }),
-    // ...add more providers here
   ],
   callbacks: {
     async signIn({ user, account }: { user: AuthUser; account: Account }) {
@@ -59,10 +56,8 @@ export const authOptions: any = {
 
             await newUser.save();
             return true;
-            // return { ...user, role: newUser.role };
           }
           return true;
-          // return { ...user, role: existingUser.role };
         } catch (err) {
           console.log("Error saving user", err);
           return false;

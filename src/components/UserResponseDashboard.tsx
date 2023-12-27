@@ -1,4 +1,4 @@
-"use client"
+"use client";
 // import { useSession } from "next-auth/react";
 // import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -6,17 +6,19 @@ import React, { useEffect, useState } from "react";
 interface UserResponses {
   _id: string;
   name: string;
-    email: string;
-    prompt: string;
-    selectedTitle: string;
-    totalTokensUsed: number;
-    // currentTime: Date;
+  email: string;
+  prompt: string;
+  selectedTitle: string;
+  totalTokensUsed: number;
+  // currentTime: Date;
 }
 
 const UserResponseDashboard: React.FC = () => {
-  const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>([]);
-//   const { data: session, status } = useSession();
-//   const router = useRouter();
+  const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>(
+    []
+  );
+  //   const { data: session, status } = useSession();
+  //   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,9 +31,10 @@ const UserResponseDashboard: React.FC = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data: { userResponseData: UserResponses[] } = await response.json();
-          setUserResponsesData(data.userResponseData);
-          console.log(data.userResponseData);
+        const data: { userResponseData: UserResponses[] } =
+          await response.json();
+        setUserResponsesData(data.userResponseData);
+        console.log(data.userResponseData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -40,9 +43,9 @@ const UserResponseDashboard: React.FC = () => {
     fetchData();
   }, []);
 
-//   const handleUserClick = (userDataInfo: string) => {
-//     router.push(`/dashboard/${userDataInfo}`);
-//   };
+  //   const handleUserClick = (userDataInfo: string) => {
+  //     router.push(`/dashboard/${userDataInfo}`);
+  //   };
 
   return (
     <div>
@@ -76,13 +79,13 @@ const UserResponseDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {userResponsesData?.map((response,index) => (
+              {userResponsesData?.map((response, index) => (
                 <tr key={response._id}>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {index+1}
-                          </div>
-                          </td>
+                      {index + 1}
+                    </div>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {response?.name}
@@ -119,4 +122,3 @@ const UserResponseDashboard: React.FC = () => {
 };
 
 export default UserResponseDashboard;
-

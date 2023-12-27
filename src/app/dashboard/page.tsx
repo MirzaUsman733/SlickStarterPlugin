@@ -28,7 +28,7 @@ const Dashboard = async () => {
         Dashboard
         <div>
           <UserDataDashboard />
-          <UserResponseDashboard/>
+          <UserResponseDashboard />
         </div>
       </div>
     );

@@ -1,4 +1,3 @@
-// pages/users/[userDataInfo].tsx
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -25,7 +24,10 @@ const page: React.FC = () => {
         const data: { user: UserData } = await response.json();
         setUser(data.user);
       } catch (error) {
-        console.error(`Error fetching user details for user ${userDataInfo}:`, error);
+        console.error(
+          `Error fetching user details for user ${userDataInfo}:`,
+          error
+        );
       }
     };
 
