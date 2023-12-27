@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
+import { useUser } from "@/app/contexts/userData";
 interface UserData {
   _id: string;
   name: string;
@@ -10,9 +10,9 @@ interface UserData {
 
 const page: React.FC = () => {
   const router = useRouter();
+  const { userWithEmail } = useUser();
   const { userDataInfo } = router.query;
   const [user, setUser] = useState<UserData | null>(null);
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
