@@ -2,6 +2,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import UserDataDashboard from "@/components/UserDataDashboard";
+import UserResponseDashboard from "@/components/UserResponseDashboard";
 
 const Dashboard = async () => {
   const session = await getServerSession();
@@ -27,6 +28,7 @@ const Dashboard = async () => {
         Dashboard
         <div>
           <UserDataDashboard />
+          <UserResponseDashboard/>
         </div>
       </div>
     );

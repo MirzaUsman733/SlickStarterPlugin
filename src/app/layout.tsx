@@ -23,7 +23,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider session={session}>
-          <div className=" text-2xl gap-2 mb-10">
+          <div className="gap-2 mb-10">
             <Navbar />
             {children}
           </div>

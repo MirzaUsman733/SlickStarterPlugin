@@ -47,7 +47,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
           messages: [
             {
               role: "user",
-              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and it must have cannot start with any number`,
+              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number`,
             },
           ],
           temperature: 0,
@@ -99,7 +99,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
           messages: [
             {
               role: "user",
-              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based`,
+              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number`,
             },
           ],
           temperature: 0,
@@ -192,7 +192,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
             messages: [
               {
                 role: "user",
-                content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable output in the html tags`,
+                content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable and the must output in the html tags`,
               },
             ],
             temperature: 0,
@@ -329,12 +329,12 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
         </div>
       )}
       {outlines.length > 0 && (
-        <div>
-          <h2>Table of content:</h2>
-          <ul className="list-group list-group-flush">
+        <div className="table-of-contents bg-white p-4 shadow-lg mt-8">
+          <h2 className="text-center">Table of content:</h2>
+          <ul className="">
             {outlines.map((outline, index) => (
               <li
-                className="list-group-item list-group-item-secondary"
+                className="list-group-item mb-2"
                 key={index}
                 style={{
                   listStyleType: "none",
@@ -356,11 +356,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
             {response.split("\n").map((title, index) => (
               <li
                 key={index}
-                // style={{
-                //   listStyleType: "none",
-                //   cursor: "pointer",
-                //   margin: "10px 0",
-                // }}
                 className="cursor-pointer my-2 text-blue-700"
                 onClick={() => generateArticleForTitle(title)}
               >
@@ -371,8 +366,9 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({ userEmail, userName }) =>
         </div>
       )}
       {articleGenerated && (
-        <div className="bg-white shadow-md rounded p-4 mt-3">
+        <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
           <div
+            className="text-gray-800"
             dangerouslySetInnerHTML={{ __html: response }}
             style={{ marginTop: "10px" }}
           />
