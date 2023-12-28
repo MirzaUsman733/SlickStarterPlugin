@@ -64,3 +64,14 @@ body {
     h2{
       font-size: 32px;
     }
+
+        .tsk {
+          display: flex;
+    
+        }
+    
+        .toggleDiv {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }

@@ -1,34 +1,29 @@
+"use client"
 import React from "react";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import UserDataDashboard from "@/components/UserDataDashboard";
 import UserResponseDashboard from "@/components/UserResponseDashboard";
+import { useUser } from "@/app/contexts/userData";
+const Dashboard = () => {
+  const { userWithEmail } = useUser();
 
-const Dashboard = async () => {
-  const session = await getServerSession();
-
-  if (!session) {
-    redirect("/");
+  if (!userWithEmail) {
+    redirect("/login");
   }
 
-  const userEmail = session?.user?.email;
-  const allowedEmails = [
-    "muhammadusman@gmail.com",
-    "arbaz@gmail.com",
-    "awais@gmail.com",
-  ];
-
+  const userEmail = userWithEmail?.email;
   if (
     userEmail !== undefined &&
     userEmail !== null &&
-    allowedEmails.includes(userEmail)
+    userWithEmail?.role === "admin"
   ) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-between">
-        Dashboard
+        {/* Dashboard */}
         <div>
           <UserDataDashboard />
-          <UserResponseDashboard />
+          {/* <UserResponseDashboard /> */}
+          {/* <DashboardLayout /> */}
         </div>
       </div>
     );
@@ -39,3 +34,16 @@ const Dashboard = async () => {
 };
 
 export default Dashboard;
+
+
+
+
+
+
+
+
+
+
+
+
+

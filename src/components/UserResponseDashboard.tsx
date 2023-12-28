@@ -1,6 +1,4 @@
 "use client";
-// import { useSession } from "next-auth/react";
-// import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 interface UserResponses {
@@ -10,15 +8,12 @@ interface UserResponses {
   prompt: string;
   selectedTitle: string;
   totalTokensUsed: number;
-  // currentTime: Date;
 }
 
 const UserResponseDashboard: React.FC = () => {
   const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>(
     []
   );
-  //   const { data: session, status } = useSession();
-  //   const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,8 +26,7 @@ const UserResponseDashboard: React.FC = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data: { userResponseData: UserResponses[] } =
-          await response.json();
+        const data: { userResponseData: UserResponses[] } = await response.json();
         setUserResponsesData(data.userResponseData);
         console.log(data.userResponseData);
       } catch (error) {
@@ -43,79 +37,27 @@ const UserResponseDashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  //   const handleUserClick = (userDataInfo: string) => {
-  //     router.push(`/dashboard/${userDataInfo}`);
-  //   };
-
   return (
-    <div>
-      <div className="grid place-items-center h-screen">
-        <div className="shadow-2xl shadow-slate-700 text-black p-8 bg-opacity-20 bg-zince-300/10 flex flex-col gap-2 my-6">
-          <h1 className="text-2xl font-bold mb-4">All Users</h1>
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead>
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Sr.No
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Prompt
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Selected Title
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Total Tokens
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Current time
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {userResponsesData?.map((response, index) => (
-                <tr key={response._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {index + 1}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {response?.name}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {response?.email}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {response?.prompt}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {response?.selectedTitle}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {response?.totalTokensUsed}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+    <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
+      <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
+        <h1 className="text-2xl font-bold mb-4 text-center">All Users Data</h1>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {userResponsesData?.map((response) => (
+            <li key={response._id}>
+              <div className="bg-white p-4 rounded-lg h-full">
+                <div className="flex justify-between items-center mb-2">
+                  <h4>{response?.name}</h4>
+                </div>
+                <ul className="">
+                  <li>{response.email}</li>
+                  <li>{response.prompt}</li>
+                  <li>{response.selectedTitle}</li>
+                  <li>{response?.totalTokensUsed}</li>
+                </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
