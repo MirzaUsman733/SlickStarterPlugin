@@ -13,62 +13,11 @@ import {
   Menu,
   Button,
   theme,
-  message,
-  Modal,
-  FloatButton,
-  Divider,
-  Form,
-  Row,
-  Col,
-  Input,
-  Space,
-  Spin,
 } from "antd";
 import Link from "next/link";
-const { Header, Sider, Content } = Layout;
+const { Sider } = Layout;
 export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-
-
-
-  const handleScreenWidthChange = () => {
-    setScreenWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleScreenWidthChange);
-    return () => {
-      window.removeEventListener("resize", handleScreenWidthChange);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (screenWidth < 768) {
-      setCollapsed(true);
-    } else {
-      setCollapsed(false);
-    }
-  }, [screenWidth]);
-
-  // if (isLoading)
-  //   return (
-  //     <Space
-  //       size="middle"
-  //       style={{
-  //         minHeight: "100vh",
-  //         display: "flex",
-  //         flexDirection: "column",
-  //         justifyContent: "center",
-  //         alignContent: "center",
-  //       }}
-  //     >
-  //       <Spin size="large" />
-  //     </Space>
-  //   );
   return (
     <>
       <Layout>
@@ -138,42 +87,6 @@ export default function DashboardLayout() {
               },
             ]}
           />
-          {/* <Button type="dashed" className="mt-2 w-100" onClick={showModal}>
-            <AiOutlinePlus /> &nbsp; Add New list
-          </Button> */}
-
-          {/* <ul>
-            {lists?.map((list) => {
-              const isDeleting = deletingListId === list.listId;
-              return (
-                <li
-                  key={list.listId}
-                  className="mt-3"
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Link
-                    className="text-decoration-none"
-                    href={`/list/${list.listId}`}
-                  >
-                    {list.name}
-                  </Link>
-                  <button
-                    className="border-0 btn btn-danger px-1 py-0"
-                    onClick={() => handleDeleteList(list.listId)}
-                    disabled={isDeleting}
-                  >
-                    {isDeleting ? "Deleting..." : <AiOutlineDelete />}
-                  </button>
-                </li>
-              );
-            })}
-          </ul> */}
-
-         
           {/* {isAuth && (
             <>
               <Link className="logoutBtn ms-2"

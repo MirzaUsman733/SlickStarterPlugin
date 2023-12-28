@@ -1,8 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { Calendar } from "antd";
-import dayjs from "dayjs";
-// import "antd/dist/antd.css";
 
 interface UserResponses {
   _id: string;

@@ -2,7 +2,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import UserDataDashboard from "@/components/UserDataDashboard";
-import UserResponseDashboard from "@/components/UserResponseDashboard";
 import { useUser } from "@/app/contexts/userData";
 const Dashboard = () => {
   const { userWithEmail } = useUser();
@@ -26,7 +25,7 @@ const Dashboard = () => {
     );
   } else {
     redirect("/frontend");
-    return null; // This is necessary to satisfy TypeScript
+    return null; 
   }
 };
 

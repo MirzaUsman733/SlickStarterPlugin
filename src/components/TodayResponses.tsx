@@ -10,7 +10,6 @@ interface UserResponses {
   totalTokensUsed: number;
   currentTime: Date;
 }
-// ...
 
 const TodayResponses: React.FC = () => {
   const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>([]);
@@ -37,7 +36,6 @@ const TodayResponses: React.FC = () => {
     fetchData();
   }, []);
 
-  // Function to check if a date is today
   const isToday = (date: Date) => {
     const today = new Date();
     return (
@@ -47,7 +45,6 @@ const TodayResponses: React.FC = () => {
     );
   };
 
-  // Filter responses for today's date
   const todayResponses = userResponsesData.filter((response) => isToday(new Date(response.currentTime)));
 
   return (

@@ -347,7 +347,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
                 key={index}
                 style={{
                   listStyleType: "none",
-                  // margin: "10px 0",
                 }}
               >
                 {outline}

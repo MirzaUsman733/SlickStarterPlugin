@@ -46,7 +46,6 @@ export const UserProvider = ({ children }) => {
     }, [userData]);
 
     const login = async (email, password) => {
-        // Assume you have a login API endpoint
         try {
             const response = await fetch("/api/login", {
                 method: "POST",
@@ -60,7 +59,6 @@ export const UserProvider = ({ children }) => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
 
-            // After a successful login, fetch the updated user data
             await checkSessionEmail();
         } catch (error) {
             console.error("Error logging in:", error);
@@ -68,7 +66,6 @@ export const UserProvider = ({ children }) => {
     };
 
     const logout = async () => {
-        // Assume you have a logout API endpoint
         try {
             const response = await fetch("/api/logout", {
                 method: "POST",
