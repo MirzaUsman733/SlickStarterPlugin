@@ -4,6 +4,10 @@ const { Schema } = mongoose;
 
 const ResponsesDataModel = new Schema(
   {
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+    },
     name: {
       type: String,
       required: true,

@@ -249,6 +249,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          _id: userWithEmail._id,
           name: userName,
           email: userEmail,
           prompt: prompt,
@@ -357,7 +358,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       )}
       {response && !articleGenerated && (
         <div>
-          <h2 className="text-2xl font-bold text-blue-600">
+          <h2 className="text-4xl font-bold text-blue-600">
             Generated Titles:
           </h2>
           <ul className="list-none list-inside">
@@ -376,7 +377,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       {articleGenerated && (
         <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
           <div
-            className="text-gray-800"
+            className=""
             dangerouslySetInnerHTML={{ __html: response }}
             style={{ marginTop: "10px" }}
           />

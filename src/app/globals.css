@@ -61,3 +61,6 @@ body {
     .list-group-item:hover {
       background-color: #edf2f7;
     }
+    h2{
+      font-size: 32px;
+    }
