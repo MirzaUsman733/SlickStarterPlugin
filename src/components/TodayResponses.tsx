@@ -10,12 +10,11 @@ interface UserResponses {
   totalTokensUsed: number;
   currentTime: Date;
 }
+// ...
 
-const UserResponseDashboard: React.FC = () => {
-  const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>(
-    []
-  );
-    
+const TodayResponses: React.FC = () => {
+  const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,12 +37,27 @@ const UserResponseDashboard: React.FC = () => {
     fetchData();
   }, []);
 
+  // Function to check if a date is today
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  // Filter responses for today's date
+  const todayResponses = userResponsesData.filter((response) => isToday(new Date(response.currentTime)));
+
   return (
     <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
       <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
-        <h1 className="text-2xl font-bold mb-4 text-center">All Users Data</h1>
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {userResponsesData?.map((response) => (
+        <h1 className="text-2xl font-bold mb-4 text-center">
+          Today's Users Data
+        </h1>
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+          {todayResponses.map((response) => (
             <li key={response._id}>
               <div className="bg-white p-4 rounded-lg h-full">
                 <div className="flex justify-between items-center mb-2">
@@ -82,4 +96,4 @@ const UserResponseDashboard: React.FC = () => {
   );
 };
 
-export default UserResponseDashboard;
+export default TodayResponses;

@@ -19,11 +19,8 @@ const Dashboard = () => {
   ) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-between">
-        {/* Dashboard */}
         <div>
           <UserDataDashboard />
-          {/* <UserResponseDashboard /> */}
-          {/* <DashboardLayout /> */}
         </div>
       </div>
     );

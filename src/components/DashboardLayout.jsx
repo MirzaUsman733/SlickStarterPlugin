@@ -4,8 +4,6 @@ import React, { useState, useEffect } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import {
   AiOutlineCalendar,
-  AiOutlineDelete,
-  AiOutlinePlus,
 } from "react-icons/ai";
 import { MdOutlineToday } from "react-icons/md";
 import { BsChevronDoubleRight, BsSticky } from "react-icons/bs";
@@ -27,24 +25,10 @@ import {
   Spin,
 } from "antd";
 import Link from "next/link";
-// import { useAuthContext } from "contexts/AuthContext";
-// import { signOut } from "firebase/auth";
-// import { auth, firestore } from "config/firebase";
-// import { Link, Route, Routes } from "react-router-dom";
-// import Home from "./Home";
-// import Calendar from "./Calendar";
-// import Upcoming from "./Upcoming";
-// import Today from "./Today";
-// import { deleteDoc, doc, setDoc } from "firebase/firestore";
-// import Title from "antd/es/skeleton/Title";
-// import { useLists } from "contexts/ListsContext";
 const { Header, Sider, Content } = Layout;
 export default function DashboardLayout() {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  // const [addList, setAddList] = useState("");
-  // const [deletingListId, setDeletingListId] = useState(null);
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -118,8 +102,8 @@ export default function DashboardLayout() {
                 key: "/",
                 icon: <BsChevronDoubleRight />,
                 label: (
-                  <Link href="/" className="text-decoration-none">
-                    Upcoming
+                  <Link href="/dashboard/" className="text-decoration-none">
+                    Home
                   </Link>
                 ),
               },
@@ -128,26 +112,26 @@ export default function DashboardLayout() {
                 icon: <MdOutlineToday />,
                 label: (
                   <Link href="/dashboard/users" className="text-decoration-none">
+                    Users
+                  </Link>
+                ),
+              },
+              {
+                key: "/todayResponses",
+                icon: <AiOutlineCalendar />,
+
+                label: (
+                  <Link href="/dashboard/todayResponses" className="text-decoration-none">
                     Today
                   </Link>
                 ),
               },
               {
-                key: "/asdfs",
-                icon: <AiOutlineCalendar />,
-
-                label: (
-                  <Link href="/dashboard/users" className="text-decoration-none">
-                    Calendar
-                  </Link>
-                ),
-              },
-              {
-                key: "/wert",
+                key: "/calender",
                 icon: <BsSticky />,
                 label: (
-                  <Link href="/dashboard/users" className="text-decoration-none">
-                    Sticky Wall
+                  <Link href="/dashboard/calenderResponse" className="text-decoration-none">
+                    Calendar
                   </Link>
                 ),
                 to: "stickywall",
