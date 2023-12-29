@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { Calendar } from "antd";
-
+import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
 interface UserResponses {
   _id: string;
   name: string;
@@ -13,29 +13,8 @@ interface UserResponses {
 }
 
 const CalenderResponse: React.FC = () => {
-const [userResponsesData, setUserResponsesData] = useState<UserResponses[]>([]);
 const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
-useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch("/api/showResponseData", {
-        method: "POST",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const data: { userResponseData: UserResponses[] } = await response.json();
-      setUserResponsesData(data.userResponseData);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  fetchData();
-}, []);
+ const { userResponsesData } = useUserResponsesContext();
 
 const handleDateSelect = (value: any) => {
   if (value) {
@@ -43,17 +22,9 @@ const handleDateSelect = (value: any) => {
   }
 };
 
-const isToday = (date: Date) => {
-  const today = new Date();
-  return (
-    date.getDate() === today.getDate() &&
-    date.getMonth() === today.getMonth() &&
-    date.getFullYear() === today.getFullYear()
-  );
-};
 
 const selectedDateResponses = userResponsesData.filter(
-  (response) =>
+  (response: any) =>
     selectedDate &&
     new Date(response.currentTime).toDateString() ===
       selectedDate.toDateString()
@@ -68,7 +39,7 @@ const selectedDateResponses = userResponsesData.filter(
           <Calendar fullscreen={false} onSelect={handleDateSelect} />
         </div>
        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
-          {selectedDateResponses.map((response) => (
+          {selectedDateResponses.map((response: any) => (
             <li key={response._id}>
               <div className="bg-white p-4 rounded-lg h-full">
                 <div className="flex justify-between items-center mb-2">
