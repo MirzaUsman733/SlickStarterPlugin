@@ -2,6 +2,7 @@
 import React from "react";
 import { redirect } from "next/navigation";
 import UserDataDashboard from "@/components/UserDataDashboard";
+import SpecificUserData from "@/components/SpecificUserData";
 import { useUser } from "@/app/contexts/userData";
 const Dashboard = () => {
   const { userWithEmail } = useUser();
@@ -19,7 +20,8 @@ const Dashboard = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-between">
         <div>
-          <UserDataDashboard />
+          {/* <UserDataDashboard /> */}
+          <SpecificUserData/>
         </div>
       </div>
     );

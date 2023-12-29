@@ -12,7 +12,6 @@ interface UserData {
 
 const UserDataDashboard: React.FC = () => {
   const [userData, setUserData] = useState<UserData[]>([]);
-  const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -36,9 +35,6 @@ const UserDataDashboard: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleUserClick = (userDataInfo: string) => {
-    router.push(`/dashboard/${userDataInfo}`);
-  };
 
   return (
     <div>
@@ -61,7 +57,7 @@ const UserDataDashboard: React.FC = () => {
             </thead>
             <tbody>
               {userData.map((user) => (
-                <tr key={user._id} onClick={() => handleUserClick(user._id)}>
+                <tr key={user._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.name}

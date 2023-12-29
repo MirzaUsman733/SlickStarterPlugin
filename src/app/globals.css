@@ -2,45 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-} */
     .table-of-contents {
       max-width: 80vw;
       margin: 0 auto;
       border: 1px solid #e2e8f0;
-      /* Border color */
       border-radius: 0.75rem;
-      /* Rounded corners */
       overflow: hidden;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
   
     .table-of-contents h2 {
       background-color: #4299e1;
-      /* Header background color */
       color: #ffffff;
-      /* Header text color */
       font-size: 1.5rem;
       font-weight: 700;
       margin: 0;
@@ -49,13 +22,11 @@ body {
   
     .list-group-item {
       border-bottom: 1px solid #e2e8f0;
-      /* Border between list items */
       transition: background-color 0.3s ease;
     }
   
     .list-group-item:last-child {
       border-bottom: none;
-      /* Remove border on the last item */
     }
   
     .list-group-item:hover {
@@ -75,3 +46,4 @@ body {
           flex-direction: row;
           justify-content: space-between;
         }
+        
