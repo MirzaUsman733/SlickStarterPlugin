@@ -1,39 +1,9 @@
 "use client";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-
-interface UserData {
-  _id: string;
-  name: string;
-  email: string;
-  role: string;
-}
+import { useUserDataContext } from "@/app/contexts/UserDataContext";
 
 const UserDataDashboard: React.FC = () => {
-  const [userData, setUserData] = useState<UserData[]>([]);
-  const router = useRouter();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/api/users", {
-          method: "POST",
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data: { userData: UserData[] } = await response.json();
-        setUserData(data.userData);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const { userData, loading } = useUserDataContext();
 
 
   return (
@@ -56,7 +26,7 @@ const UserDataDashboard: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((user) => (
+              {userData.map((user: any) => (
                 <tr key={user._id}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">

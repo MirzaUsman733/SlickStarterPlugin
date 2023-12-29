@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ChatGptPrompt from "@/components/ChatGpt4";
 const Page: React.FC = async () => {
+  
   const session = await getServerSession();
   if (!session) {
     redirect("/");

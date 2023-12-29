@@ -1,12 +1,17 @@
 "use client"
 import React from "react";
 import { redirect } from "next/navigation";
-import UserDataDashboard from "@/components/UserDataDashboard";
 import SpecificUserData from "@/components/SpecificUserData";
 import { useUser } from "@/app/contexts/userData";
+import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
+import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const Dashboard = () => {
   const { userWithEmail } = useUser();
-
+  const { userResponsesData } = useUserResponsesContext();
+   const { userData, loading } = useUserDataContext();
+   
+  console.log("User Response Data: ",userData);
+  console.log("User Response Data: ",userResponsesData);
   if (!userWithEmail) {
     redirect("/login");
   }
@@ -20,7 +25,6 @@ const Dashboard = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-between">
         <div>
-          {/* <UserDataDashboard /> */}
           <SpecificUserData/>
         </div>
       </div>

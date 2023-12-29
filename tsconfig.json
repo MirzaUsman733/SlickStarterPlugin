@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/models/ResponseModel.js", "src/app/dashboard/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/models/ResponseModel.js", "src/app/dashboard/page.jsx", "src/app/contexts/UserResponsesContext.jsx"],
   "exclude": ["node_modules"]
 }
