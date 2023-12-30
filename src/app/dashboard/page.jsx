@@ -8,9 +8,9 @@ import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const Dashboard = () => {
   const { userWithEmail } = useUser();
   const { userResponsesData } = useUserResponsesContext();
-   const { userData, loading } = useUserDataContext();
-   
-  console.log("User Response Data: ",userData);
+  //  const { userData, loading } = useUserDataContext();
+   console.log("User With Email",userWithEmail)
+  // console.log("User Response Data: ",userData);
   console.log("User Response Data: ",userResponsesData);
   if (!userWithEmail) {
     redirect("/login");

@@ -4,8 +4,9 @@ const { Schema } = mongoose;
 
 const ResponsesDataUser = new Schema(
   {
-    _id: {
+    id: {
       type: mongoose.Schema.Types.ObjectId,
+      unique: false,
       required: true,
     },
     name: {

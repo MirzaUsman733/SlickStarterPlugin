@@ -16,7 +16,7 @@ const SpecificUserData: React.FC = () => {
   useEffect(() => {
     if (selectedUserId) {
       const matchingResponses = userResponsesData.filter(
-        (response: any) => response._id === selectedUserId
+        (response: any) => response.id === selectedUserId
       );
       console.log("Matching Response", matchingResponses);
       setSelectedResponseData(

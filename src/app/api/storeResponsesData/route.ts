@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
   const {
-    _id,
+    id,
     name,
     email,
     prompt,
@@ -15,7 +15,7 @@ export const POST = async (request: any) => {
   await connect();
 
   const newEntry = new ResponsesDataUser({
-    _id,
+    id,
     name,
     email,
     prompt,

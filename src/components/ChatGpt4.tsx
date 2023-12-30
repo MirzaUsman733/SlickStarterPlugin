@@ -276,7 +276,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          _id: userWithEmail._id,
+          id: userWithEmail._id,
           name: userName,
           email: userEmail,
           prompt: prompt,
