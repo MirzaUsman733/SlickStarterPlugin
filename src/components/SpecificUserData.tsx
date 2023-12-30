@@ -100,9 +100,17 @@ const SpecificUserData: React.FC = () => {
                         {response.email}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                        <b> Prompt: </b>
-                        {response.prompt}
+                        <b> SelectedTitle: </b>
+                        {response.selectedTitle}
                       </li>
+                      <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Total Tokens Used: </b>
+                    {response?.totalTokensUsed}
+                  </li>
+                       <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Date: </b>{" "}
+                    {new Date(response.currentTime).toLocaleString()}
+                  </li>
                       {/* Add other response fields here */}
                     </ul>
                   </div>
