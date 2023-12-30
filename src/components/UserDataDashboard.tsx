@@ -4,7 +4,13 @@ import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const UserDataDashboard: React.FC = () => {
 
   const { userData, loading } = useUserDataContext();
-
+const calculateTotalTokens = (user: any): number => {
+  // Assuming that 'tokens' is the property containing the user's tokens
+  return user.tokens.reduce(
+    (total: number, token: any) => total + token.amount,
+    0
+  );
+};
 
   return (
     <div>
@@ -41,6 +47,11 @@ const UserDataDashboard: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.role}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      {calculateTotalTokens(user)}
                     </div>
                   </td>
                 </tr>

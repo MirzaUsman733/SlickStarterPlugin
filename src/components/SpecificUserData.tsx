@@ -8,7 +8,9 @@ const SpecificUserData: React.FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedResponseData, setSelectedResponseData] = useState<
     any[] | null
-  >(null);
+    >(null);
+   const [totalTokensUsed, setTotalTokensUsed] = useState<number | null>(null);
+   const [totalPromptsUsed, setTotalPromptsUsed] = useState<number | null>(null);
   console.log("Start User Response:", userResponsesData);
   console.log("Start User Data:", userData);
   console.log("Start User selected:", selectedUserId);
@@ -18,12 +20,24 @@ const SpecificUserData: React.FC = () => {
       const matchingResponses = userResponsesData.filter(
         (response: any) => response.id === selectedUserId
       );
+      const totalTokens = matchingResponses.reduce(
+        (sum:any, response: any) => sum + response.totalTokensUsed,
+        0
+      );
+       const totalPrompts = matchingResponses.reduce(
+        (sum: any, response: any) => sum + response.totalPromptsUsed,
+        0
+      );
+         setTotalPromptsUsed(totalPrompts);
+      setTotalTokensUsed(totalTokens);
       console.log("Matching Response", matchingResponses);
       setSelectedResponseData(
         matchingResponses.length > 0 ? matchingResponses : null
       );
     } else {
+       setTotalTokensUsed(null);
       setSelectedResponseData(null);
+        setTotalPromptsUsed(null);
     }
   }, [selectedUserId, userResponsesData]);
 
@@ -59,7 +73,7 @@ const SpecificUserData: React.FC = () => {
                   className="list-group-item mb-2 cursor-pointer"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900 table-of-contents">
+                    <div className="text-sm font-medium text-gray-900 p-3">
                       {user.name}
                     </div>
                   </td>
@@ -85,6 +99,20 @@ const SpecificUserData: React.FC = () => {
             <h1 className="text-2xl font-bold mb-4 text-center">
               User Responses Data
             </h1>
+             {totalTokensUsed !== null && (
+              <div className="mb-4">
+                <h2 className="text-xl font-semibold">
+                  Total Tokens Used: {totalTokensUsed}
+                </h2>
+              </div>
+            )}
+             {totalPromptsUsed !== null && (
+              <div className="mb-4">
+                <h2 className="text-xl font-semibold">
+                  Total Prompts Used: {totalPromptsUsed}
+                </h2>
+              </div>
+            )}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {selectedResponseData?.map((response: any) => (
                 <li key={response._id}>
