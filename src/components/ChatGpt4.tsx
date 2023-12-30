@@ -1,6 +1,7 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
+// import Loader from "react-loader-spinner";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useUser } from "@/app/contexts/userData";
 interface ChatGptPromptProps {
   userEmail: string | null | undefined;
@@ -11,6 +12,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   userEmail,
   userName,
 }) => {
+  const [loading, setLoading] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
   const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
   const [response, setResponse] = useState<string>("");
@@ -27,6 +29,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   };
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
+  const articleGeneratedRef = useRef<string>("");
 
   const { userWithEmail } = useUser();
   console.log(userWithEmail);
@@ -38,9 +41,11 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   }, [totalTokensUsed]);
   if (articleGenerated) {
     totalTokenRef.current = totalTokensUsed;
+    articleGeneratedRef.current = response;
   }
   const fetchOpenAIResponse = async () => {
     try {
+      setLoading(true);
       if (!prompt.trim()) {
         return;
       }
@@ -86,6 +91,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         ...prevData,
         { prompt, selectedTitle: "", totalUsedToken: 0 },
       ]);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching OpenAI response:", error);
     }
@@ -241,6 +247,27 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       console.error("Error generating article:", error);
     }
   };
+  if (articleGenerated) {
+    console.log("Response Data that we need to store in the mongodb", response);
+    // console.log(
+    //   "Response Data that we need to store in the mongodb",
+    //   userWithEmail._id
+    // );
+    console.log("Response Data that we need to store in the mongodb", userName);
+    console.log(
+      "Response Data that we need to store in the mongodb",
+      userEmail
+    );
+    console.log("Response Data that we need to store in the mongodb", prompt);
+    console.log(
+      "Response Data that we need to store in the mongodb",
+      selectedTitleRef.current
+    );
+    console.log(
+      "Response Data that we need to store in the mongodb",
+      totalTokenRef.current
+    );
+  }
   const storeResponsesData = async () => {
     try {
       const response = await fetch("/api/storeResponsesData", {
@@ -254,6 +281,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           email: userEmail,
           prompt: prompt,
           selectedTitle: selectedTitleRef.current,
+          article: articleGeneratedRef.current,
           totalTokensUsed: totalTokenRef.current,
         }),
       });
@@ -261,7 +289,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       if (!response.ok) {
         throw new Error(`Failed to store data: ${response.statusText}`);
       }
-
       console.log("Data submitted successfully");
     } catch (error) {
       console.error("Error storing data:", error);
@@ -326,6 +353,13 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           </button>
         )}
       </div>
+      {loading && (
+        <div className="loader-container">
+          {/* <Loader type="Oval" color="#00BFFF" height={50} width={50} /> */}
+          <p>Loading...</p>
+        </div>
+      )}
+
       {originalPrompt && (
         <div className="bg-white shadow-md rounded p-4 my-3">
           <ul className="list-none list-inside">

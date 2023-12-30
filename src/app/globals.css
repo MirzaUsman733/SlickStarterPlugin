@@ -46,4 +46,11 @@
           flex-direction: row;
           justify-content: space-between;
         }
-        
+                .loader-container {
+                  position: fixed;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  text-align: center;
+                  z-index: 9999;
+                }

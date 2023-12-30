@@ -3,33 +3,34 @@ import React, { useEffect, useState } from "react";
 import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
 import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const SpecificUserData: React.FC = () => {
- const { userResponsesData } = useUserResponsesContext();
- const { userData, loading } = useUserDataContext();
+  const { userResponsesData } = useUserResponsesContext();
+  const { userData, loading } = useUserDataContext();
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
-   const [selectedResponseData, setSelectedResponseData] = useState<any[] | null>(null);
+  const [selectedResponseData, setSelectedResponseData] = useState<
+    any[] | null
+  >(null);
   console.log("Start User Response:", userResponsesData);
   console.log("Start User Data:", userData);
   console.log("Start User selected:", selectedUserId);
-  
-useEffect(() => {
-  if (selectedUserId) {
-    const matchingResponses = userResponsesData.filter(
-      (response: any) => response._id === selectedUserId
-    );
-    console.log("Matching Response",matchingResponses)
-    setSelectedResponseData(
-      matchingResponses.length > 0 ? matchingResponses : null
-    );
-  } else {
-    setSelectedResponseData(null);
-  }
-}, [selectedUserId, userResponsesData]);
 
-const handleUserSelect = (userId: string) => {
-  setSelectedUserId(userId);
-  console.log(userId);
-};
+  useEffect(() => {
+    if (selectedUserId) {
+      const matchingResponses = userResponsesData.filter(
+        (response: any) => response._id === selectedUserId
+      );
+      console.log("Matching Response", matchingResponses);
+      setSelectedResponseData(
+        matchingResponses.length > 0 ? matchingResponses : null
+      );
+    } else {
+      setSelectedResponseData(null);
+    }
+  }, [selectedUserId, userResponsesData]);
 
+  const handleUserSelect = (userId: string) => {
+    setSelectedUserId(userId);
+    console.log(userId);
+  };
 
   return (
     <div>
@@ -52,9 +53,13 @@ const handleUserSelect = (userId: string) => {
             </thead>
             <tbody>
               {userData.map((user: any) => (
-                <tr key={user._id} onClick={() => handleUserSelect(user._id)}>
+                <tr
+                  key={user._id}
+                  onClick={() => handleUserSelect(user._id)}
+                  className="list-group-item mb-2 cursor-pointer"
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
+                    <div className="text-sm font-medium text-gray-900 table-of-contents">
                       {user.name}
                     </div>
                   </td>
@@ -81,7 +86,7 @@ const handleUserSelect = (userId: string) => {
               User Responses Data
             </h1>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {selectedResponseData ?.map((response: any) => (
+              {selectedResponseData?.map((response: any) => (
                 <li key={response._id}>
                   <div className="bg-white p-4 rounded-lg h-full">
                     <div className="flex justify-between items-center mb-2">

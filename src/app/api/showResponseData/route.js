@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
     try {
         await connect();
-        const userResponseData = await ResponsesDataModel.find({}).select("_id name email prompt selectedTitle totalTokensUsed currentTime");
+        const userResponseData = await ResponsesDataModel.find({}).select("_id name email prompt selectedTitle article totalTokensUsed currentTime");
         console.log("userData: ", userResponseData);
         return NextResponse.json({ userResponseData });
     } catch (error) {
