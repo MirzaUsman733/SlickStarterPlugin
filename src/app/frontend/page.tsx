@@ -2,7 +2,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ChatGptPrompt from "@/components/ChatGpt4";
-// import Checking from "@/components/Checking";
+import GptComments from "@/components/GptComments";
 const Page: React.FC = async () => {
   
   const session = await getServerSession();
@@ -18,7 +18,7 @@ const Page: React.FC = async () => {
         userEmail={session?.user?.email}
         userName={session?.user?.name}
       />
-      {/* <Checking/> */}
+      <GptComments/>
     </div>
   );
 };
