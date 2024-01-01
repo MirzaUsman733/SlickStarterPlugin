@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-// import Loader from "react-loader-spinner";
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { MutatingDots } from "react-loader-spinner";
 import { useUser } from "@/app/contexts/userData";
 interface ChatGptPromptProps {
   userEmail: string | null | undefined;
@@ -21,6 +20,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const [articleGenerated, setArticleGenerated] = useState<boolean>(false);
   const [outlines, setOutlines] = useState<string[]>([]);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
+  const [loadingProgress, setLoadingProgress] = useState<number>(0);
   const [responsesData, setResponsesData] = useState<
     { prompt: string; selectedTitle: string; totalUsedToken: number }[]
   >([]);
@@ -45,7 +45,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   }
   const fetchOpenAIResponse = async () => {
     try {
-      setLoading(true);
       if (!prompt.trim()) {
         return;
       }
@@ -91,7 +90,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         ...prevData,
         { prompt, selectedTitle: "", totalUsedToken: 0 },
       ]);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching OpenAI response:", error);
     }
@@ -147,6 +145,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
 
   const generateArticleForTitle = async (selectedTitle: string) => {
     try {
+      setLoading(true);
       if (!selectedTitle.trim()) {
         return;
       }
@@ -197,7 +196,10 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       setResponsesData(updatedData);
       // Step 2: Get content for each outline
       const responses: string[] = [];
-
+      const totalOutlines = outlines.length;
+      let outlinesProcessed = 0;
+      const initialOutlineProgress = 5;
+      setLoadingProgress(initialOutlineProgress);
       for (const outline of outlines) {
         const { data } = await axios.post(
           openaiEndpoint,
@@ -231,9 +233,15 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           tokensUsedInResponse,
         ]);
         updateTotalTokensUsed(tokensUsedInResponse);
+        outlinesProcessed++;
+        const progressPercentage =
+          initialOutlineProgress +
+          (outlinesProcessed / totalOutlines) * (100 - initialOutlineProgress);
+
+        setLoadingProgress(progressPercentage);
         console.log(data.usage.total_tokens);
       }
-
+      setLoadingProgress(100);
       setResponse(responses.join("\n"));
       setOriginalPrompt(selectedTitle);
       setArticleGenerated(true);
@@ -243,31 +251,11 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           : dataItem
       );
       setResponsesData(updatedDataAfterGettingAllToken);
+      setLoading(false);
     } catch (error) {
       console.error("Error generating article:", error);
     }
   };
-  if (articleGenerated) {
-    console.log("Response Data that we need to store in the mongodb", response);
-    // console.log(
-    //   "Response Data that we need to store in the mongodb",
-    //   userWithEmail._id
-    // );
-    console.log("Response Data that we need to store in the mongodb", userName);
-    console.log(
-      "Response Data that we need to store in the mongodb",
-      userEmail
-    );
-    console.log("Response Data that we need to store in the mongodb", prompt);
-    console.log(
-      "Response Data that we need to store in the mongodb",
-      selectedTitleRef.current
-    );
-    console.log(
-      "Response Data that we need to store in the mongodb",
-      totalTokenRef.current
-    );
-  }
   const storeResponsesData = async () => {
     try {
       const response = await fetch("/api/storeResponsesData", {
@@ -355,8 +343,28 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       </div>
       {loading && (
         <div className="loader-container">
-          {/* <Loader type="Oval" color="#00BFFF" height={50} width={50} /> */}
-          <p>Loading...</p>
+          <div className="loader">
+            <MutatingDots
+              visible={true}
+              height="100"
+              width="100"
+              color="#4fa94d"
+              secondaryColor="#4fa94d"
+              radius="12.5"
+              ariaLabel="mutating-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </div>
+          <div className="progress-bar-container">
+            <div
+              className="progress-bar"
+              style={{ width: `${loadingProgress}%` }}
+            ></div>
+            <div className="progress-text">{`Progress: ${loadingProgress.toFixed(
+              2
+            )}%`}</div>
+          </div>
         </div>
       )}
 
@@ -407,6 +415,12 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           </ul>
         </div>
       )}
+      {/* {loading && (
+        <div className="loader-container">
+          <p>Loading...</p>
+          <progress value={loadingProgress} max={100}></progress>
+        </div>
+      )} */}
       {articleGenerated && (
         <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
           <div

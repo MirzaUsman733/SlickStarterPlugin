@@ -24,10 +24,7 @@ const SpecificUserData: React.FC = () => {
         (sum:any, response: any) => sum + response.totalTokensUsed,
         0
       );
-       const totalPrompts = matchingResponses.reduce(
-        (sum: any, response: any) => sum + response.totalPromptsUsed,
-        0
-      );
+      const totalPrompts = matchingResponses.length;
          setTotalPromptsUsed(totalPrompts);
       setTotalTokensUsed(totalTokens);
       console.log("Matching Response", matchingResponses);
@@ -87,6 +84,7 @@ const SpecificUserData: React.FC = () => {
                       {user.role}
                     </div>
                   </td>
+                  
                 </tr>
               ))}
             </tbody>
