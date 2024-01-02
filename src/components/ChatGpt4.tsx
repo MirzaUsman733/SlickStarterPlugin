@@ -27,6 +27,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const updateTotalTokensUsed = (tokens: number) => {
     setTotalTokensUsed((prevTotalTokensUsed) => prevTotalTokensUsed + tokens);
   };
+  const [copyStatus, setCopyStatus] = useState<string | null>(null);
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
   const articleGeneratedRef = useRef<string>("");
@@ -299,6 +300,64 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       storeResponsesData();
     }
   }, [articleGenerated]);
+
+  type HeadingSizes = {
+    [key: string]: string;
+  };
+
+  const stripHtmlTagsWithHeadings = (htmlString: string) => {
+    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    const body = doc.body;
+
+    // Define font sizes for each heading level
+    const headingSizes: HeadingSizes = {
+      h1: "32px",
+      h2: "30px",
+      h3: "28px",
+      h4: "26px",
+      h5: "24px",
+      h6: "22px",
+    };
+
+    // Iterate through headings and update font size
+    const headings = body.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    headings.forEach((heading) => {
+      const headingElement = heading as HTMLElement;
+      const tagName = headingElement.tagName.toLowerCase();
+      const fontSize = headingSizes[tagName];
+
+      if (fontSize) {
+        headingElement.style.fontSize = fontSize;
+      }
+    });
+
+    return body.textContent || "";
+  };
+
+  const copyToClipboard = async () => {
+    try {
+      const container = document.getElementById("generatedContentContainer");
+
+      if (container) {
+        const textContentWithHeadings = stripHtmlTagsWithHeadings(
+          container.innerHTML
+        );
+        await navigator.clipboard.writeText(textContentWithHeadings);
+        setCopyStatus("Copied text content with headings to clipboard!");
+      } else {
+        setCopyStatus("No content to copy!");
+      }
+    } catch (err) {
+      console.error("Error copying to clipboard:", err);
+      setCopyStatus("Failed to copy to clipboard");
+    }
+
+    // Clear the copy status after a few seconds
+    setTimeout(() => {
+      setCopyStatus(null);
+    }, 3000);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <h1
@@ -415,19 +474,21 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           </ul>
         </div>
       )}
-      {/* {loading && (
-        <div className="loader-container">
-          <p>Loading...</p>
-          <progress value={loadingProgress} max={100}></progress>
-        </div>
-      )} */}
       {articleGenerated && (
         <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
           <div
+            id="generatedContentContainer"
             className=""
             dangerouslySetInnerHTML={{ __html: response }}
             style={{ marginTop: "10px" }}
           />
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+            onClick={copyToClipboard}
+          >
+            Copy to Clipboard
+          </button>
+          {copyStatus && <p className="text-green-600">{copyStatus}</p>}
         </div>
       )}
       {tokensUsedPerPrompt.length > 0 && (
