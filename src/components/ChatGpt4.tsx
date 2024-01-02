@@ -21,12 +21,15 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const [outlines, setOutlines] = useState<string[]>([]);
   const [selectedTitle, setSelectedTitle] = useState<string>("");
   const [loadingProgress, setLoadingProgress] = useState<number>(0);
+   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
   const [responsesData, setResponsesData] = useState<
     { prompt: string; selectedTitle: string; totalUsedToken: number }[]
   >([]);
   const updateTotalTokensUsed = (tokens: number) => {
     setTotalTokensUsed((prevTotalTokensUsed) => prevTotalTokensUsed + tokens);
   };
+   const languageAddOn =
+   selectedLanguage !== "English" ? `${selectedLanguage}` : "";
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
@@ -60,7 +63,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           messages: [
             {
               role: "user",
-              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number`,
+              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number and the language is [${languageAddOn}]`,
             },
           ],
           temperature: 0,
@@ -112,7 +115,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           messages: [
             {
               role: "user",
-              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number`,
+              content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number  and the language is [${languageAddOn}]`,
             },
           ],
           temperature: 0,
@@ -162,7 +165,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           messages: [
             {
               role: "user",
-              content: `write the 10 outline that cannot start with the numbers on:  "${selectedTitle}" only give me outlines not sub outlines`,
+              content: `write the 10 outline that cannot start with the numbers on:  "${selectedTitle}" only give me outlines not sub outlines and the language is [${languageAddOn}]`,
             },
           ],
           temperature: 0,
@@ -209,7 +212,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
             messages: [
               {
                 role: "user",
-                content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable and the must output in the html tags`,
+                content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable and the must output in the html tags  and the language is [${languageAddOn}]`,
               },
             ],
             temperature: 0,
@@ -268,6 +271,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           id: userWithEmail._id,
           name: userName,
           email: userEmail,
+          language: selectedLanguage,
           prompt: prompt,
           selectedTitle: selectedTitleRef.current,
           article: articleGeneratedRef.current,
@@ -383,6 +387,23 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           onChange={(e) => setPrompt(e.target.value)}
           className="py-1 rounded border border-primary w-1/4"
         />
+        <select
+          value={selectedLanguage}
+          onChange={(e) => setSelectedLanguage(e.target.value)}
+          className="mx-4 py-1 rounded border border-primary"
+        >
+          <option value="English">English </option>
+          <option value="Portuguese">Brazil </option>
+          <option value="Italian">Italy</option>
+          <option value="Spanish">Spain</option>
+          <option value="French">France</option>
+          <option value="German">Germany</option>
+          <option value="Dutch">Netherlands</option>
+          <option value="Arabic">Saudi Arabia</option>
+          <option value="Polish">Poland</option>
+          <option value="Vietnamese">Vietnam </option>
+          <option value="Turkish">Turkey</option>
+        </select>
         {!originalPrompt && (
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
