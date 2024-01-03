@@ -12,7 +12,9 @@ const Page: React.FC = async () => {
 
   return (
     <div className="container-lg mx-auto">
-      <h1 className="text-center text-4xl font-bold">Welcome to the Home Page</h1>
+      <h1 className="text-center text-4xl font-bold">
+        Welcome to the Home Page
+      </h1>
       <ChatGptPrompt
         userEmail={session?.user?.email}
         userName={session?.user?.name}
