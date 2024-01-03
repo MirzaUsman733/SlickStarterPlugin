@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const ResponsesDataUser = new Schema(
+const CommentsDataUser = new Schema(
   {
     id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,15 +17,19 @@ const ResponsesDataUser = new Schema(
       type: String,
       required: true,
     },
+    language: {
+      type: String,
+      required: true,
+    },
+    product: {
+       type: String,
+      required: true,
+    },
     prompt: {
       type: String,
       required: true,
     },
-    selectedTitle: {
-      type: String,
-      required: true,
-    },
-    article: {
+    comments: {
       type: String,
       require: true,
     },
@@ -41,4 +45,4 @@ const ResponsesDataUser = new Schema(
   { versionKey: false },
 );
 
-export default mongoose.models.ResponsesDataUser || mongoose.model("ResponsesDataUser", ResponsesDataUser);
+export default mongoose.models.CommentsDataUser || mongoose.model("CommentsDataUser", CommentsDataUser);

@@ -12,8 +12,7 @@ const Page: React.FC = async () => {
 
   return (
     <div className="container-lg mx-auto">
-      <h1>Welcome to the Home Page</h1>
-      <div>Frontend Home</div>
+      <h1 className="text-center">Welcome to the Home Page</h1>
       <UserPersonalData/>
     </div>
   );

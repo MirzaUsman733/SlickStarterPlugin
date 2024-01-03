@@ -1,4 +1,4 @@
-import ResponsesDataUser from "@/models/CommentsModel";
+import CommentsDataUser from "@/models/CommentsModel";
 import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 
@@ -7,20 +7,22 @@ export const POST = async (request: any) => {
     id,
     name,
     email,
+    language,
+    product,
     prompt,
-    selectedTitle,
-    article,
+    comments,
     totalTokensUsed,
   } = await request.json();
   await connect();
 
-  const newEntry = new ResponsesDataUser({
+  const newEntry = new CommentsDataUser({
     id,
     name,
     email,
+    language,
+    product,
     prompt,
-    selectedTitle,
-    article,
+    comments,
     totalTokensUsed,
   });
   try {

@@ -1,18 +1,27 @@
-// CommentGptPrompt.tsx
+
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect,useRef } from "react";
 import { MutatingDots } from "react-loader-spinner";
 import axios from "axios";
+import { useUser } from "@/app/contexts/userData";
+interface CommentGptPromptProps {
+  userEmail: string | null | undefined;
+  userName: string | null | undefined;
+}
 
-interface CommentGptPromptProps {}
-
-const GptComments: React.FC<CommentGptPromptProps> = () => {
+const GptComments: React.FC<CommentGptPromptProps> = ({
+  userEmail,
+  userName,
+}) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
+  const [commentsGenerated, setCommentsGenerated] = useState<boolean>(false);
  const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-  
+   const totalTokenRef = useRef<number>(0);
+   const finalResponseRef = useRef<string>("");
+    const { userWithEmail } = useUser();
   const fetchOpenAIComment = async () => {
     try {
       if (!prompt.trim()) {
@@ -31,7 +40,7 @@ const GptComments: React.FC<CommentGptPromptProps> = () => {
       const { data } = await axios.post(
         openaiEndpoint,
         {
-          model: "gpt-4",
+          model: "gpt-4-1106-preview",
           messages: [
             {
               role: "user",
@@ -51,18 +60,50 @@ const GptComments: React.FC<CommentGptPromptProps> = () => {
           },
         }
       );
-
+setCommentsGenerated(true);
       setResponse(data.choices[0].message.content);
+      console.log(data.usage.total_tokens)
+      finalResponseRef.current = data.choices[0].message.content
+      totalTokenRef.current = data.usage.total_tokens
       setLoading(false);
     } catch (error) {
       console.error("Error fetching OpenAI comment:", error);
       setLoading(false);
     }
   };
-// const sanitizeHTML = (html: string): string => {
-//   const doc = new DOMParser().parseFromString(html, "text/html");
-//   return doc.body.textContent || "";
-// };
+  console.log(finalResponseRef.current)
+const storeCommentsData = async () => {
+  try {
+    const responseData = await fetch("/api/storeCommentsData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: userWithEmail._id,
+        name: userName,
+        email: userEmail,
+        product: selectedProduct,
+        language: selectedLanguage,
+        prompt: prompt,
+        comments: finalResponseRef.current,
+        totalTokensUsed: totalTokenRef.current,
+      }),
+    });
+
+    if (!responseData.ok) {
+      throw new Error(`Failed to store data: ${responseData.statusText}`);
+    }
+    console.log("Data submitted successfully");
+  } catch (error) {
+    console.error("Error storing data:", error);
+  }
+};
+  useEffect(() => {
+    if (commentsGenerated) {
+      storeCommentsData();
+    }
+  }, [commentsGenerated]);
   return (
     <div className="container mx-auto p-4">
       <h1

@@ -13,7 +13,10 @@ const Page: React.FC = async () => {
     <div className="container-lg mx-auto">
       <h1>Welcome to the Home Page</h1>
       <div>Frontend Home</div>
-      <GptComments />
+      <GptComments
+        userEmail={session?.user?.email}
+        userName={session?.user?.name}
+      />
     </div>
   );
 };

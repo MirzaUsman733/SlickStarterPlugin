@@ -34,7 +34,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const selectedTitleRef = useRef<string>("");
   const totalTokenRef = useRef<number>(0);
   const articleGeneratedRef = useRef<string>("");
-
   const { userWithEmail } = useUser();
   console.log(userWithEmail);
 
