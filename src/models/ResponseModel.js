@@ -17,6 +17,10 @@ const ResponsesDataUser = new Schema(
       type: String,
       required: true,
     },
+    language: {
+      type: String,
+      required: true,
+    },
     prompt: {
       type: String,
       required: true,
