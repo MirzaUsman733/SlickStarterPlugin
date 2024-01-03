@@ -6,7 +6,6 @@ export async function POST(req) {
     try {
         await connect();
         const userData = await User.find({}).select("_id name email role");
-        console.log("userData: ", userData);
         return NextResponse.json({ userData });
     } catch (error) {
         console.error(error);

@@ -5,7 +5,6 @@ const UserDataDashboard: React.FC = () => {
 
   const { userData, loading } = useUserDataContext();
 const calculateTotalTokens = (user: any): number => {
-  // Assuming that 'tokens' is the property containing the user's tokens
   return user.tokens.reduce(
     (total: number, token: any) => total + token.amount,
     0

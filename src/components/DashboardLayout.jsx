@@ -7,6 +7,7 @@ import {
 } from "react-icons/ai";
 import { MdOutlineToday } from "react-icons/md";
 import { BsChevronDoubleRight, BsSticky } from "react-icons/bs";
+import { signOut, useSession } from "next-auth/react";
 import { GoSignOut } from "react-icons/go";
 import {
   Layout,
@@ -87,12 +88,20 @@ export default function DashboardLayout() {
               },
             ]}
           />
+          <button
+            onClick={() => {
+              signOut();
+            }}
+            className="p-2 px-5 -mt-1 bg-blue-800 rounded-full"
+          >
+            <GoSignOut size={20} /> Sign Out
+          </button>
           {/* {isAuth && (
             <>
               <Link className="logoutBtn ms-2"
               //  onClick={handleLogout}
                >
-                <GoSignOut size={20} /> Sign Out
+                <GoSignOut size={20} /> 
               </Link>
             </>
           )} */}
@@ -101,7 +110,7 @@ export default function DashboardLayout() {
           className="site-layout"
           style={{ marginLeft: collapsed ? 80 : 200 }}
         >
-         
+
         </Layout>
       </Layout>
     </>

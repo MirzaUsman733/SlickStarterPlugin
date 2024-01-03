@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint"
   },
+   "prettier": {
+    "singleQuote": true,
+    "tabWidth": 2
+  },
   "dependencies": {
     "antd": "^5.12.5",
     "axios": "^1.6.2",

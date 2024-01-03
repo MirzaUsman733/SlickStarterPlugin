@@ -9,10 +9,6 @@ import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const Dashboard = () => {
   const { userWithEmail } = useUser();
   const { userResponsesData } = useUserResponsesContext();
-  //  const { userData, loading } = useUserDataContext();
-   console.log("User With Email",userWithEmail)
-  // console.log("User Response Data: ",userData);
-  console.log("User Response Data: ",userResponsesData);
   if (!userWithEmail) {
     redirect("/login");
   }
@@ -24,10 +20,9 @@ const Dashboard = () => {
     userWithEmail?.role === "admin"
   ) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-between">
+      <div className="flex min-h-screen flex-col items-center justify-between max-w-screen-2xl">
         <div>
           <SpecificUserData/>
-          {/* <UserDataDashboard/> */}
         </div>
       </div>
     );

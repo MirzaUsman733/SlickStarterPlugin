@@ -2,7 +2,6 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import GptComments from "@/components/GptComments";
-// import Checking from "@/components/Checking";
 const Page: React.FC = async () => {
   const session = await getServerSession();
   if (!session) {
@@ -11,8 +10,9 @@ const Page: React.FC = async () => {
 
   return (
     <div className="container-lg mx-auto">
-      <h1>Welcome to the Home Page</h1>
-      <div>Frontend Home</div>
+      <h1 className="text-center text-4xl font-bold my-4">
+        Welcome to the Slick Starter Comments Generator
+      </h1>
       <GptComments
         userEmail={session?.user?.email}
         userName={session?.user?.name}

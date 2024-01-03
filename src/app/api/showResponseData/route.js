@@ -6,7 +6,6 @@ export async function POST(req) {
     try {
         await connect();
         const userResponseData = await ResponsesDataModel.find({}).select("id name email prompt selectedTitle article totalTokensUsed currentTime");
-        console.log("userData: ", userResponseData);
         return NextResponse.json({ userResponseData });
     } catch (error) {
         console.error(error);

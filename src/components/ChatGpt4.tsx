@@ -35,13 +35,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const totalTokenRef = useRef<number>(0);
   const articleGeneratedRef = useRef<string>("");
   const { userWithEmail } = useUser();
-  console.log(userWithEmail);
 
-  useEffect(() => {
-    if (totalTokensUsed > 0) {
-      console.log(`Total Tokens Used Across All Prompts: ${totalTokensUsed}`);
-    }
-  }, [totalTokensUsed]);
   if (articleGenerated) {
     totalTokenRef.current = totalTokensUsed;
     articleGeneratedRef.current = response;
@@ -79,15 +73,12 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         }
       );
       setResponse(data.choices[0].message.content);
-      console.log(data);
-      console.log(data.usage.total_tokens);
       const tokensUsedInResponse = data.usage.total_tokens;
       setTokensUsedPerPrompt((prevTokens) => [
         ...prevTokens,
         tokensUsedInResponse,
       ]);
       updateTotalTokensUsed(tokensUsedInResponse);
-      console.log(response);
       setOriginalPrompt(prompt);
       setResponsesData((prevData) => [
         ...prevData,
@@ -138,8 +129,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         tokensUsedInResponse,
       ]);
       updateTotalTokensUsed(tokensUsedInResponse);
-      console.log(data.usage.total_tokens);
-      console.log(response);
       setOriginalPrompt(prompt);
     } catch (error) {
       console.error("Error fetching OpenAI response:", error);
@@ -180,7 +169,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           },
         }
       );
-      console.log(outlinesData.choices[0].message.content.split("\n"));
       const outlines = outlinesData.choices[0].message.content.split("\n");
       const tokensUsedInResponse = outlinesData.usage.total_tokens;
       setTokensUsedPerPrompt((prevTokens) => [
@@ -188,7 +176,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         tokensUsedInResponse,
       ]);
       updateTotalTokensUsed(tokensUsedInResponse);
-      console.log(outlinesData.usage.total_tokens);
       setOutlines(outlines);
       selectedTitleRef.current = selectedTitle;
       const updatedData = responsesData.map((dataItem) =>
@@ -228,7 +215,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           }
         );
 
-        console.log(data.choices[0].message.content);
         responses.push(data.choices[0].message.content);
         const tokensUsedInResponse = data.usage.total_tokens;
         setTokensUsedPerPrompt((prevTokens) => [
@@ -242,7 +228,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           (outlinesProcessed / totalOutlines) * (100 - initialOutlineProgress);
 
         setLoadingProgress(progressPercentage);
-        console.log(data.usage.total_tokens);
       }
       setLoadingProgress(100);
       setResponse(responses.join("\n"));
@@ -355,7 +340,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       setCopyStatus("Failed to copy to clipboard");
     }
 
-    // Clear the copy status after a few seconds
     setTimeout(() => {
       setCopyStatus(null);
     }, 3000);
@@ -363,19 +347,9 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
 
   return (
     <div className="container mx-auto p-4">
-      <h1
-        className="text-center text-4xl font-bold mb-4"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        OpenAI Response
-      </h1>
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4 ">
         <label htmlFor="prompt" className="me-4 text-lg">
-          Enter the Keyword for given Outlines:{" "}
+          Enter the Keyword for given titles:{" "}
         </label>
         <input
           disabled={articleGenerated}
@@ -384,7 +358,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           placeholder="Enter your prompt..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="py-1 rounded border border-primary w-1/4"
+          className="py-1 px-3 rounded border border-primary w-1/4"
         />
         <select
           value={selectedLanguage}
@@ -421,7 +395,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         )}
       </div>
       {loading && (
-        <div className="loader-container">
+        <div className="loader-container bg-white shadow-md rounded p-4 my-3">
           <div className="loader">
             <MutatingDots
               visible={true}
@@ -435,7 +409,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
               wrapperClass=""
             />
           </div>
-          <div className="progress-bar-container">
+          <div className="progress-bar-container ">
             <div
               className="progress-bar"
               style={{ width: `${loadingProgress}%` }}
@@ -448,7 +422,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       )}
 
       {originalPrompt && (
-        <div className="bg-white shadow-md rounded p-4 my-3">
+        <div className="bg-white shadow-md rounded p-4 my-3 ">
           <ul className="list-none list-inside">
             {originalPrompt.split("\n").map((line, index) => (
               <h1 className="bg-gray-200 p-2 mb-2 rounded" key={index}>
@@ -477,15 +451,15 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         </div>
       )}
       {response && !articleGenerated && (
-        <div>
-          <h2 className="text-4xl font-bold text-blue-600">
-            Generated Titles:
+        <div className="table-of-contents bg-white p-4 shadow-lg mt-8">
+          <h2 className="text-4xl font-bold text-blue-600 text-center">
+            Generated Titles
           </h2>
           <ul className="list-none list-inside">
             {response.split("\n").map((title, index) => (
               <li
                 key={index}
-                className="cursor-pointer my-2 text-blue-700"
+                className="cursor-pointer py-3 text-blue-700 list-group-item text-xl"
                 onClick={() => generateArticleForTitle(title)}
               >
                 {title}
@@ -509,37 +483,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
             Copy to Clipboard
           </button>
           {copyStatus && <p className="text-green-600">{copyStatus}</p>}
-        </div>
-      )}
-      {tokensUsedPerPrompt.length > 0 && (
-        <div>
-          <h2 className="text-2xl font-bold text-blue-600">
-            Tokens Used Per Prompt:
-          </h2>
-          <ul className="list-none list-inside">
-            {tokensUsedPerPrompt.map((tokens, index) => (
-              <li key={index}>{`Prompt ${index + 1}: ${tokens}`}</li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {totalTokensUsed > 0 && (
-        <p className="mt-2 text-blue-600">
-          Total Tokens Used Across All Prompts: {totalTokensUsed}
-        </p>
-      )}
-      {totalTokensUsed > 4200 && (
-        <div>
-          <h2 className="text-2xl font-bold text-blue-600">Stored Data:</h2>
-          <ul className="list-none list-inside">
-            {responsesData.map((data, index) => (
-              <li className="list-none" key={index}>
-                <p>{`Prompt: ${data.prompt}`}</p>
-                <p>{`Selected Title: ${data.selectedTitle}`}</p>
-                <p>{`Total Tokens Used: ${data.totalUsedToken}`}</p>
-              </li>
-            ))}
-          </ul>
         </div>
       )}
     </div>

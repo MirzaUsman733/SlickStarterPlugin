@@ -8,7 +8,6 @@ const Login = () => {
   const router = useRouter();
   const [error, setError] = useState("");
   const { data: session, status: sessionStatus } = useSession();
-  console.log(session);
   useEffect(() => {
     if (sessionStatus === "authenticated") {
       router.replace("/frontend");

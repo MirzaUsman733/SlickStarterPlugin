@@ -1,25 +1,19 @@
-"use client"
-import React, { useEffect, useState } from "react";
-import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
-import { useUser } from "@/app/contexts/userData";
+'use client';
+import React, { useEffect, useState } from 'react';
+import { useUserResponsesContext } from '@/app/contexts/UserResponsesContext';
+import { useUser } from '@/app/contexts/userData';
 const UserPersonalData: React.FC = () => {
-    const { userWithEmail } = useUser();
+  const { userWithEmail } = useUser();
   const { userResponsesData } = useUserResponsesContext();
   const [selectedResponseData, setSelectedResponseData] = useState<
     any[] | null
-    >(null);
- const [openArticleIds, setOpenArticleIds] = useState<string[]>([]);
-
-  console.log("Frontend User Response:", userResponsesData);
-  console.log("Frontend User Response:", userWithEmail?._id);
+  >(null);
+  const [openArticleIds, setOpenArticleIds] = useState<string[]>([]);
   useEffect(() => {
     if (userWithEmail && userResponsesData.length > 0) {
       const matchingResponses = userResponsesData.filter(
         (response: any) => response?.id === userWithEmail?._id
       );
-
-      console.log("Matching Response", matchingResponses);
-
       setSelectedResponseData(
         matchingResponses.length > 0 ? matchingResponses : null
       );
@@ -27,14 +21,12 @@ const UserPersonalData: React.FC = () => {
       setSelectedResponseData(null);
     }
   }, [userResponsesData, userWithEmail]);
-    
-const handleReadArticle = (responseId: string) => {
+
+  const handleReadArticle = (responseId: string) => {
     setOpenArticleIds((prevIds) => {
       if (prevIds.includes(responseId)) {
-        // If the ID is already in the list, remove it to close the article
         return prevIds.filter((id) => id !== responseId);
       } else {
-        // If the ID is not in the list, add it to open the article
         return [...prevIds, responseId];
       }
     });
@@ -47,14 +39,12 @@ const handleReadArticle = (responseId: string) => {
   const toggleArticleVisibility = (responseId: string) => {
     setOpenArticleIds((prevIds) => {
       if (prevIds.includes(responseId)) {
-        // If the ID is already in the list, remove it to close the article
         return prevIds.filter((id) => id !== responseId);
       } else {
-        // If the ID is not in the list, add it to open the article
         return [...prevIds, responseId];
       }
     });
-  }
+  };
   return (
     <div>
       <div>
@@ -90,7 +80,7 @@ const handleReadArticle = (responseId: string) => {
                         {response?.totalTokensUsed}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                        <b> Date: </b>{" "}
+                        <b> Date: </b>{' '}
                         {new Date(response.currentTime).toLocaleString()}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
@@ -99,15 +89,16 @@ const handleReadArticle = (responseId: string) => {
                           onClick={() => toggleArticleVisibility(response._id)}
                           className="my-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
                         >
-                          {isArticleOpen(response._id) ? 'Show Less' : 'Read Article'}
+                          {isArticleOpen(response._id)
+                            ? 'Show Less'
+                            : 'Read Article'}
                         </button>
                         {isArticleOpen(response._id) && (
                           <div
-                            className=""
                             dangerouslySetInnerHTML={{
                               __html: response.article,
                             }}
-                            style={{ marginTop: "10px" }}
+                            style={{ marginTop: '10px' }}
                           />
                         )}
                       </li>

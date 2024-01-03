@@ -1,6 +1,5 @@
-
 "use client";
-import React, { useState,useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MutatingDots } from "react-loader-spinner";
 import axios from "axios";
 import { useUser } from "@/app/contexts/userData";
@@ -17,11 +16,11 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
   const [response, setResponse] = useState<string>("");
   const [prompt, setPrompt] = useState<string>("");
   const [commentsGenerated, setCommentsGenerated] = useState<boolean>(false);
- const [selectedProduct, setSelectedProduct] = useState<string>("");
+  const [selectedProduct, setSelectedProduct] = useState<string>("");
   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
-   const totalTokenRef = useRef<number>(0);
-   const finalResponseRef = useRef<string>("");
-    const { userWithEmail } = useUser();
+  const totalTokenRef = useRef<number>(0);
+  const finalResponseRef = useRef<string>("");
+  const { userWithEmail } = useUser();
   const fetchOpenAIComment = async () => {
     try {
       if (!prompt.trim()) {
@@ -32,15 +31,19 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
       const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
 
       setLoading(true);
- const productAddOn = selectedProduct === "DumpsBoss" ? "DumpsBoss.com" :
-                           selectedProduct === "DumpsArena" ? "DumpsArena.com" : "";
- const languageAddOn =
-   selectedLanguage !== "English" ? `${selectedLanguage}` : "";
+      const productAddOn =
+        selectedProduct === "DumpsBoss"
+          ? "DumpsBoss.com"
+          : selectedProduct === "DumpsArena"
+          ? "DumpsArena.com"
+          : "";
+      const languageAddOn =
+        selectedLanguage !== "English" ? `${selectedLanguage}` : "";
 
       const { data } = await axios.post(
         openaiEndpoint,
         {
-          model: "gpt-4-1106-preview",
+          model: "gpt-4",
           messages: [
             {
               role: "user",
@@ -60,45 +63,43 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
           },
         }
       );
-setCommentsGenerated(true);
+      setCommentsGenerated(true);
       setResponse(data.choices[0].message.content);
-      console.log(data.usage.total_tokens)
-      finalResponseRef.current = data.choices[0].message.content
-      totalTokenRef.current = data.usage.total_tokens
+      finalResponseRef.current = data.choices[0].message.content;
+      totalTokenRef.current = data.usage.total_tokens;
       setLoading(false);
     } catch (error) {
       console.error("Error fetching OpenAI comment:", error);
       setLoading(false);
     }
   };
-  console.log(finalResponseRef.current)
-const storeCommentsData = async () => {
-  try {
-    const responseData = await fetch("/api/storeCommentsData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id: userWithEmail._id,
-        name: userName,
-        email: userEmail,
-        product: selectedProduct,
-        language: selectedLanguage,
-        prompt: prompt,
-        comments: finalResponseRef.current,
-        totalTokensUsed: totalTokenRef.current,
-      }),
-    });
+  const storeCommentsData = async () => {
+    try {
+      const responseData = await fetch("/api/storeCommentsData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: userWithEmail._id,
+          name: userName,
+          email: userEmail,
+          product: selectedProduct,
+          language: selectedLanguage,
+          prompt: prompt,
+          comments: finalResponseRef.current,
+          totalTokensUsed: totalTokenRef.current,
+        }),
+      });
 
-    if (!responseData.ok) {
-      throw new Error(`Failed to store data: ${responseData.statusText}`);
+      if (!responseData.ok) {
+        throw new Error(`Failed to store data: ${responseData.statusText}`);
+      }
+      console.log("Data submitted successfully");
+    } catch (error) {
+      console.error("Error storing data:", error);
     }
-    console.log("Data submitted successfully");
-  } catch (error) {
-    console.error("Error storing data:", error);
-  }
-};
+  };
   useEffect(() => {
     if (commentsGenerated) {
       storeCommentsData();
@@ -106,19 +107,9 @@ const storeCommentsData = async () => {
   }, [commentsGenerated]);
   return (
     <div className="container mx-auto p-4">
-      <h1
-        className="text-center text-4xl font-bold mb-4"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        OpenAI Comment Generator
-      </h1>
       <div className="flex items-center mb-4">
         <label htmlFor="prompt" className="me-4 text-lg">
-          Enter the Prompt for comment generation:{" "}
+          Enter the Product Name:{" "}
         </label>
         <input
           id="prompt"
@@ -126,7 +117,7 @@ const storeCommentsData = async () => {
           placeholder="Enter your prompt..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          className="py-1 rounded border border-primary w-1/4"
+          className="py-1 px-3 rounded border border-primary w-1/4"
         />
         <select
           value={selectedProduct}
@@ -142,7 +133,6 @@ const storeCommentsData = async () => {
           onChange={(e) => setSelectedLanguage(e.target.value)}
           className="mx-4 py-1 rounded border border-primary"
         >
-          
           <option value="English">English </option>
           <option value="Portuguese">Brazil </option>
           <option value="Italian">Italy</option>
@@ -179,16 +169,6 @@ const storeCommentsData = async () => {
           </div>
         </div>
       )}
-      {/* {response && (
-        <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
-          <div
-            id="generatedContentContainer"
-            className=""
-            dangerouslySetInnerHTML={{ __html: response }}
-            style={{ marginTop: "10px" }}
-          />
-        </div>
-      )} */}
       {response && (
         <div className="container mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
           <div

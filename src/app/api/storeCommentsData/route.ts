@@ -27,7 +27,6 @@ export const POST = async (request: any) => {
   });
   try {
     await newEntry.save();
-    console.log("New Entry Pass",newEntry);
     return new NextResponse("User Response is saved", { status: 200 });
   } catch (err: any) {
     return new NextResponse(err, {

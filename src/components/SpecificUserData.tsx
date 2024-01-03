@@ -11,9 +11,6 @@ const SpecificUserData: React.FC = () => {
     >(null);
    const [totalTokensUsed, setTotalTokensUsed] = useState<number | null>(null);
    const [totalPromptsUsed, setTotalPromptsUsed] = useState<number | null>(null);
-  console.log("Start User Response:", userResponsesData);
-  console.log("Start User Data:", userData);
-  console.log("Start User selected:", selectedUserId);
 
   useEffect(() => {
     if (selectedUserId) {
@@ -27,7 +24,6 @@ const SpecificUserData: React.FC = () => {
       const totalPrompts = matchingResponses.length;
          setTotalPromptsUsed(totalPrompts);
       setTotalTokensUsed(totalTokens);
-      console.log("Matching Response", matchingResponses);
       setSelectedResponseData(
         matchingResponses.length > 0 ? matchingResponses : null
       );
@@ -40,7 +36,6 @@ const SpecificUserData: React.FC = () => {
 
   const handleUserSelect = (userId: string) => {
     setSelectedUserId(userId);
-    console.log(userId);
   };
 
   return (

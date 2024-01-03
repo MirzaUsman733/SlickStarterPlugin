@@ -2,35 +2,21 @@
 import React, { useEffect, useState } from "react";
 import { Calendar } from "antd";
 import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
-interface UserResponses {
-  _id: string;
-  name: string;
-  email: string;
-  prompt: string;
-  selectedTitle: string;
-  totalTokensUsed: number;
-  currentTime: Date;
-}
-
 const CalenderResponse: React.FC = () => {
 const [selectedDate, setSelectedDate] = useState<Date | null>(null);
- const { userResponsesData } = useUserResponsesContext();
+const { userResponsesData } = useUserResponsesContext();
 
 const handleDateSelect = (value: any) => {
   if (value) {
     setSelectedDate(value.toDate());
   }
 };
-
-
 const selectedDateResponses = userResponsesData.filter(
   (response: any) =>
     selectedDate &&
     new Date(response.currentTime).toDateString() ===
       selectedDate.toDateString()
 );
-
-
   return (
     <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
       <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
