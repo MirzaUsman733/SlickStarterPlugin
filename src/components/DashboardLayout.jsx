@@ -32,7 +32,7 @@ export default function DashboardLayout() {
         >
           <div className="demo-logo-vertical pt-3 ps-3 mt-3" />
           <div className="toggleDiv">
-            <h3 className="tsk text-white">Tasks</h3>
+            <h3 className="tsk text-white text-xl">Dashboard</h3>
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -63,17 +63,16 @@ export default function DashboardLayout() {
                 icon: <MdOutlineToday />,
                 label: (
                   <Link href="/dashboard/users" className="text-decoration-none">
-                    Users
+                    User Article Data
                   </Link>
                 ),
               },
               {
                 key: "/todayResponses",
                 icon: <AiOutlineCalendar />,
-
                 label: (
                   <Link href="/dashboard/todayResponses" className="text-decoration-none">
-                    Today
+                    Today Articles
                   </Link>
                 ),
               },
@@ -82,10 +81,54 @@ export default function DashboardLayout() {
                 icon: <BsSticky />,
                 label: (
                   <Link href="/dashboard/calenderResponse" className="text-decoration-none">
-                    Calendar
+                    Article Calendar
                   </Link>
                 ),
-                to: "stickywall",
+              },
+               {
+                key: "/specific",
+                icon: <BsSticky />,
+                label: (
+                  <Link href="/dashboard/specific" className="text-decoration-none">
+                    Specific User Article
+                  </Link>
+                ),
+              },
+              {
+                key: "/commentsData",
+                icon: <BsSticky />,
+                label: (
+                  <Link href="/dashboard/commentsData" className="text-decoration-none">
+                    User Comments Data
+                  </Link>
+                ),
+              },
+              {
+                key: "/todayComments",
+                icon: <BsSticky />,
+                label: (
+                  <Link href="/dashboard/todayComments" className="text-decoration-none">
+                    Today Comments
+                  </Link>
+                ),
+              },
+                {
+                key: "/calenderComments",
+                icon: <BsSticky />,
+                label: (
+                  <Link href="/dashboard/calenderComments" className="text-decoration-none">
+                    Comments Calendar 
+                  </Link>
+                ),
+              },
+                {
+                key: "/specificUserComments",
+                icon: <BsSticky />,
+                label: (
+                  <Link href="/dashboard/specificUserComments" className="text-decoration-none">
+                    Today Comments
+                  </Link>
+                ),
               },
             ]}
           />
@@ -97,15 +140,6 @@ export default function DashboardLayout() {
           >
             <GoSignOut size={20} /> <span className="text-xl"> Sign Out </span>
           </button>
-          {/* {isAuth && (
-            <>
-              <Link className="logoutBtn ms-2"
-              //  onClick={handleLogout}
-               >
-                <GoSignOut size={20} /> 
-              </Link>
-            </>
-          )} */}
         </Sider>
         <Layout
           className="site-layout"

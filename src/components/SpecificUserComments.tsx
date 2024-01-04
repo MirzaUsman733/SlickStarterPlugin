@@ -1,9 +1,9 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { useUserResponsesContext } from '@/app/contexts/UserResponsesContext';
+import { useUserCommentsContext } from '@/app/contexts/UserCommentsContext';
 import { useUserDataContext } from '@/app/contexts/UserDataContext';
-const SpecificUserData: React.FC = () => {
-  const { userResponsesData } = useUserResponsesContext();
+const SpecificUserComments: React.FC = () => {
+  const { userCommentsData } = useUserCommentsContext();
   const { userData, loading } = useUserDataContext();
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   const [selectedResponseData, setSelectedResponseData] = useState<
@@ -14,7 +14,7 @@ const SpecificUserData: React.FC = () => {
 
   useEffect(() => {
     if (selectedUserId) {
-      const matchingResponses = userResponsesData.filter(
+      const matchingResponses = userCommentsData.filter(
         (response: any) => response.id === selectedUserId
       );
       const totalTokens = matchingResponses.reduce(
@@ -32,7 +32,7 @@ const SpecificUserData: React.FC = () => {
       setSelectedResponseData(null);
       setTotalPromptsUsed(null);
     }
-  }, [selectedUserId, userResponsesData]);
+  }, [selectedUserId, userCommentsData]);
 
   const handleUserSelect = (userId: string) => {
     setSelectedUserId(userId);
@@ -143,4 +143,4 @@ const SpecificUserData: React.FC = () => {
   );
 };
 
-export default SpecificUserData;
+export default SpecificUserComments;

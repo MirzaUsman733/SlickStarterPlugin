@@ -4,12 +4,7 @@ import { useUserDataContext } from "@/app/contexts/UserDataContext";
 const UserDataDashboard: React.FC = () => {
 
   const { userData, loading } = useUserDataContext();
-const calculateTotalTokens = (user: any): number => {
-  return user.tokens.reduce(
-    (total: number, token: any) => total + token.amount,
-    0
-  );
-};
+
 
   return (
     <div>
@@ -19,6 +14,9 @@ const calculateTotalTokens = (user: any): number => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  SR.NO
+                </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Name
                 </th>
@@ -31,26 +29,26 @@ const calculateTotalTokens = (user: any): number => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((user: any) => (
+              {userData.map((user: any, index: any) => (
                 <tr key={user._id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-10 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      {index+1}
+                    </div>
+                  </td>
+                  <td className="px-10 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.name}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-10 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.email}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-10 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
                       {user?.role}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {calculateTotalTokens(user)}
                     </div>
                   </td>
                 </tr>

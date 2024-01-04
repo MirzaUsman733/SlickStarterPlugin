@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { getServerSession } from "next-auth";
 import SessionProvider from "@/utils/SessionProvider";
 import { UserProvider } from "@/app/contexts/userData";
+import { UserCommentsContextProvider } from "@/app/contexts/UserCommentsContext";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,11 +22,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <UserProvider>
-          <SessionProvider session={session}>
-            <div className="gap-2 mb-10">
-              {children}
-            </div>
-          </SessionProvider>
+          <UserCommentsContextProvider>
+            <SessionProvider session={session}>
+              <div className="gap-2 mb-10">{children}</div>
+            </SessionProvider>
+          </UserCommentsContextProvider>
         </UserProvider>
       </body>
     </html>
