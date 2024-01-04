@@ -40,8 +40,8 @@ const SpecificUserData: React.FC = () => {
 
   return (
     <div>
-      <div>
-        <div className="shadow-2xl shadow-slate-700 text-black p-8 bg-opacity-20 bg-zince-300/10 flex flex-col gap-2 my-6">
+      <div className="max-w-screen-md mx-auto">
+        <div className="shadow-2xl shadow-slate-700 text-black ms-32 p-8 bg-opacity-20 bg-zince-300/10 flex flex-col gap-2 my-6">
           <h1 className="text-2xl font-bold mb-4">All Users</h1>
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
@@ -79,34 +79,33 @@ const SpecificUserData: React.FC = () => {
                       {user.role}
                     </div>
                   </td>
-                  
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-      <div>
-        <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
+      <div className="ms-32">
+        <div className="min-h-screen container mx-auto ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
           <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
             <h1 className="text-2xl font-bold mb-4 text-center">
               User Responses Data
             </h1>
-             {totalTokensUsed !== null && (
+            {totalTokensUsed !== null && (
               <div className="mb-4">
                 <h2 className="text-xl font-semibold">
                   Total Tokens Used: {totalTokensUsed}
                 </h2>
               </div>
             )}
-             {totalPromptsUsed !== null && (
+            {totalPromptsUsed !== null && (
               <div className="mb-4">
                 <h2 className="text-xl font-semibold">
                   Total Prompts Used: {totalPromptsUsed}
                 </h2>
               </div>
             )}
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
               {selectedResponseData?.map((response: any) => (
                 <li key={response._id}>
                   <div className="bg-white p-4 rounded-lg h-full">
@@ -125,13 +124,13 @@ const SpecificUserData: React.FC = () => {
                         {response.selectedTitle}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                    <b> Total Tokens Used: </b>
-                    {response?.totalTokensUsed}
-                  </li>
-                       <li className="border-b border-solid border-blue-500 my-2">
-                    <b> Date: </b>{" "}
-                    {new Date(response.currentTime).toLocaleString()}
-                  </li>
+                        <b> Total Tokens Used: </b>
+                        {response?.totalTokensUsed}
+                      </li>
+                      <li className="border-b border-solid border-blue-500 my-2">
+                        <b> Date: </b>{' '}
+                        {new Date(response.currentTime).toLocaleString()}
+                      </li>
                       {/* Add other response fields here */}
                     </ul>
                   </div>

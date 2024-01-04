@@ -346,7 +346,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-center mb-4 ">
+      <div className="flex items-center mb-4 justify-center">
         <label htmlFor="prompt" className="me-4 text-lg">
           Enter the Keyword for given titles:{" "}
         </label>
@@ -354,7 +354,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           disabled={articleGenerated}
           id="prompt"
           type="text"
-          placeholder="Enter your prompt..."
+          placeholder="Enter your Keyword..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="py-1 px-3 rounded border border-primary w-1/4"

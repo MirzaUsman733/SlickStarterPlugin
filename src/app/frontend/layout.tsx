@@ -11,8 +11,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     {/* <Navbar /> */}
   <Header />
     <UserResponsesContextProvider>
-     
+     <div>
       {children}
+      </div>
     </UserResponsesContextProvider>
     </>;
 };

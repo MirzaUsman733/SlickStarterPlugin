@@ -21,6 +21,7 @@ export default function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
   return (
     <>
+    <div className="">
       <Layout>
         <Sider
           className="ps-2 bg-light"
@@ -92,9 +93,9 @@ export default function DashboardLayout() {
             onClick={() => {
               signOut();
             }}
-            className="p-2 px-5 -mt-1 bg-blue-800 rounded-full"
+            className="logoutBtn p-2 text-white flex justify-between gap-5"
           >
-            <GoSignOut size={20} /> Sign Out
+            <GoSignOut size={20} /> <span className="text-xl"> Sign Out </span>
           </button>
           {/* {isAuth && (
             <>
@@ -113,6 +114,7 @@ export default function DashboardLayout() {
 
         </Layout>
       </Layout>
+      </div>
     </>
   );
 }

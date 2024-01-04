@@ -109,12 +109,12 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
     <div className="container mx-auto p-4">
       <div className="flex items-center mb-4">
         <label htmlFor="prompt" className="me-4 text-lg">
-          Enter the Product Name:{" "}
+          Enter the Product Name:{' '}
         </label>
         <input
           id="prompt"
           type="text"
-          placeholder="Enter your prompt..."
+          placeholder="Enter your Product Name..."
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           className="py-1 px-3 rounded border border-primary w-1/4"
@@ -133,7 +133,7 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
           onChange={(e) => setSelectedLanguage(e.target.value)}
           className="mx-4 py-1 rounded border border-primary"
         >
-          <option value="English">English </option>
+          <option value="English">United States </option>
           <option value="Portuguese">Brazil </option>
           <option value="Italian">Italy</option>
           <option value="Spanish">Spain</option>
@@ -143,7 +143,29 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
           <option value="Arabic">Saudi Arabia</option>
           <option value="Polish">Poland</option>
           <option value="Vietnamese">Vietnam </option>
-          <option value="Turkish">Turkey</option>
+          <option value="Hindi">India </option>
+          <option value="Urdu">Pakistan</option>
+          <option value="Afrikaans">South Africa</option>
+          <option value="Malay">Singapore</option>
+          <option value="Japanese">Japan</option>
+          <option value="Filipino">Philippines </option>
+          <option value="Indonesian">Indonesia</option>
+          <option value="Cantonese">Hong Kong</option>
+          <option value="Korean">South Korea</option>
+          <option value="Berber">Morocco </option>
+          <option value="Romanian">Romania</option>
+          <option value="Thai">Thailand </option>
+          <option value="Mandarin Chinese">Taiwan</option>
+          <option value="Ukrainian">Ukraine</option>
+          <option value="Quechua">Peru</option>
+          <option value="Irish">Ireland</option>
+          <option value="Russian">Russia</option>
+          <option value="Swedish">Sweden</option>
+          <option value="Azerbaijani">Azerbaijan</option>
+          <option value="Bengali">Bangladesh</option>
+          <option value="Greek">Greece</option>
+          <option value="Sinhala">Sri Lanka</option>
+          <option value="Swahili">Kenya</option>
         </select>
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -175,7 +197,7 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
             id="generatedContentContainer"
             className=""
             dangerouslySetInnerHTML={{ __html: response }}
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: '10px' }}
           />
         </div>
       )}
