@@ -297,7 +297,6 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
     const doc = new DOMParser().parseFromString(htmlString, "text/html");
     const body = doc.body;
 
-    // Define font sizes for each heading level
     const headingSizes: HeadingSizes = {
       h1: "32px",
       h2: "30px",
