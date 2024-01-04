@@ -11,11 +11,11 @@ const UserPersonalData: React.FC = () => {
   const [openArticleIds, setOpenArticleIds] = useState<string[]>([]);
   useEffect(() => {
     if (userWithEmail && userResponsesData.length > 0) {
-      const matchingResponses = userResponsesData.filter(
+      const matchingResponses = userResponsesData?.filter(
         (response: any) => response?.id === userWithEmail?._id
       );
       setSelectedResponseData(
-        matchingResponses.length > 0 ? matchingResponses : null
+        matchingResponses?.length > 0 ? matchingResponses : null
       );
     } else {
       setSelectedResponseData(null);
@@ -24,8 +24,8 @@ const UserPersonalData: React.FC = () => {
 
   const handleReadArticle = (responseId: string) => {
     setOpenArticleIds((prevIds) => {
-      if (prevIds.includes(responseId)) {
-        return prevIds.filter((id) => id !== responseId);
+      if (prevIds?.includes(responseId)) {
+        return prevIds?.filter((id) => id !== responseId);
       } else {
         return [...prevIds, responseId];
       }
@@ -65,15 +65,15 @@ const UserPersonalData: React.FC = () => {
                     <ul>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Email: </b>
-                        {response.email}
+                        {response?.email}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Prompt: </b>
-                        {response.prompt}
+                        {response?.prompt}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> SelectedTitle: </b>
-                        {response.selectedTitle}
+                        {response?.selectedTitle}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Total Tokens Used: </b>
@@ -86,14 +86,14 @@ const UserPersonalData: React.FC = () => {
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Article : </b>
                         <button
-                          onClick={() => toggleArticleVisibility(response._id)}
+                          onClick={() => toggleArticleVisibility(response?._id)}
                           className="my-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
                         >
-                          {isArticleOpen(response._id)
+                          {isArticleOpen(response?._id)
                             ? 'Show Less'
                             : 'Read Article'}
                         </button>
-                        {isArticleOpen(response._id) && (
+                        {isArticleOpen(response?._id) && (
                           <div
                             dangerouslySetInnerHTML={{
                               __html: response.article,

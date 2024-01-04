@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import { redirect } from "next/navigation";
-import UserResponseDashboard from "@/components/UserResponseDashboard";
+import UserCommentsDashboard from "@/components/UserCommentsDashboard";
 import { useUser } from "@/app/contexts/userData";
 
 const page = () => {
@@ -20,7 +20,7 @@ const page = () => {
       <div className="flex min-h-screen flex-col items-center justify-between">
         Dashboard
         <div>
-          <UserResponseDashboard />
+          <UserCommentsDashboard />
         </div>
       </div>
     );

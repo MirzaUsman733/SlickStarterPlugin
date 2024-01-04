@@ -36,15 +36,15 @@ const selectedDateResponses = userCommentsData.filter(
                 <ul className="">
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Email: </b>
-                    {response.email}
+                    {response?.email}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Prompt: </b>
-                    {response.prompt}
+                    {response?.prompt}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Selected Title: </b>
-                    {response.selectedTitle}
+                    {response?.selectedTitle}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Total Tokens Used: </b>

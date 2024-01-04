@@ -12,7 +12,7 @@ const TodayResponses: React.FC = () => {
     );
   };
 
-  const todayResponses = userResponsesData.filter((response: any) => isToday(new Date(response.currentTime)));
+  const todayResponses = userResponsesData?.filter((response: any) => isToday(new Date(response.currentTime)));
 
   return (
     <div className="min-h-screen container mx-auto  ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
@@ -21,7 +21,7 @@ const TodayResponses: React.FC = () => {
           Today's Users Data
         </h1>
         <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
-          {todayResponses.map((response: any) => (
+          {todayResponses?.map((response: any) => (
             <li key={response._id}>
               <div className="bg-white p-4 rounded-lg h-full">
                 <div className="flex justify-between items-center mb-2">
@@ -32,15 +32,15 @@ const TodayResponses: React.FC = () => {
                 <ul className="">
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Email: </b>
-                    {response.email}
+                    {response?.email}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Prompt: </b>
-                    {response.prompt}
+                    {response?.prompt}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Selected Title: </b>
-                    {response.selectedTitle}
+                    {response?.selectedTitle}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Total Tokens Used: </b>
@@ -48,7 +48,7 @@ const TodayResponses: React.FC = () => {
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Date: </b>{" "}
-                    {new Date(response.currentTime).toLocaleString()}
+                    {new Date(response?.currentTime).toLocaleString()}
                   </li>
                 </ul>
               </div>

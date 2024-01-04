@@ -3,6 +3,7 @@ import { useUserCommentsContext } from "@/app/contexts/UserCommentsContext";
 const TodayComments: React.FC = () => {
   
  const { userCommentsData } = useUserCommentsContext();
+ console.log(userCommentsData)
   const isToday = (date: Date) => {
     const today = new Date();
     return (
@@ -12,8 +13,8 @@ const TodayComments: React.FC = () => {
     );
   };
 
-  const todayResponses = userCommentsData.filter((response: any) =>
-    isToday(new Date(response.currentTime))
+  const todayResponses = userCommentsData?.filter((response: any) =>
+    isToday(new Date(response?.currentTime))
   );
 
   return (
@@ -23,26 +24,30 @@ const TodayComments: React.FC = () => {
           Today's Users Data
         </h1>
         <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
-          {todayResponses.map((response: any) => (
-            <li key={response._id}>
+          {todayResponses?.map((response: any) => (
+            <li key={response?._id}>
               <div className="bg-white p-4 rounded-lg h-full">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="border-b border-solid border-blue-500 my-2">
                     <b> Name: </b> {response?.name}
                   </h4>
                 </div>
-                <ul className="">
+                <ul>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Email: </b>
-                    {response.email}
+                    {response?.email}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Language: </b>
+                    {response?.language}
+                  </li>
+                  <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Selected Product: </b>
+                    {response?.product}
+                  </li>
+                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Prompt: </b>
-                    {response.prompt}
-                  </li>
-                  <li className="border-b border-solid border-blue-500 my-2">
-                    <b> Selected Title: </b>
-                    {response.selectedTitle}
+                    {response?.prompt}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Total Tokens Used: </b>
@@ -50,7 +55,7 @@ const TodayComments: React.FC = () => {
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Date: </b>{" "}
-                    {new Date(response.currentTime).toLocaleString()}
+                    {new Date(response?.currentTime).toLocaleString()}
                   </li>
                 </ul>
               </div>

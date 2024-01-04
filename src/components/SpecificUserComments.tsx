@@ -14,8 +14,8 @@ const SpecificUserComments: React.FC = () => {
 
   useEffect(() => {
     if (selectedUserId) {
-      const matchingResponses = userCommentsData.filter(
-        (response: any) => response.id === selectedUserId
+      const matchingResponses = userCommentsData?.filter(
+        (response: any) => response?.id === selectedUserId
       );
       const totalTokens = matchingResponses.reduce(
         (sum: any, response: any) => sum + response.totalTokensUsed,
@@ -25,7 +25,7 @@ const SpecificUserComments: React.FC = () => {
       setTotalPromptsUsed(totalPrompts);
       setTotalTokensUsed(totalTokens);
       setSelectedResponseData(
-        matchingResponses.length > 0 ? matchingResponses : null
+        matchingResponses?.length > 0 ? matchingResponses : null
       );
     } else {
       setTotalTokensUsed(null);
@@ -60,23 +60,23 @@ const SpecificUserComments: React.FC = () => {
             <tbody>
               {userData.map((user: any) => (
                 <tr
-                  key={user._id}
+                  key={user?._id}
                   onClick={() => handleUserSelect(user._id)}
                   className="list-group-item mb-2 cursor-pointer"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900 p-3">
-                      {user.name}
+                      {user?.name}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {user.email}
+                      {user?.email}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {user.role}
+                      {user?.role}
                     </div>
                   </td>
                 </tr>
@@ -107,7 +107,7 @@ const SpecificUserComments: React.FC = () => {
             )}
             <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
               {selectedResponseData?.map((response: any) => (
-                <li key={response._id}>
+                <li key={response?._id}>
                   <div className="bg-white p-4 rounded-lg h-full">
                     <div className="flex justify-between items-center mb-2">
                       <h4 className="border-b border-solid border-blue-500 my-2">
@@ -117,11 +117,11 @@ const SpecificUserComments: React.FC = () => {
                     <ul>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Email: </b>
-                        {response.email}
+                        {response?.email}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> SelectedTitle: </b>
-                        {response.selectedTitle}
+                        {response?.selectedTitle}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Total Tokens Used: </b>

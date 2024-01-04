@@ -1,6 +1,6 @@
 "use client";
 import { useUserCommentsContext } from '@/app/contexts/UserCommentsContext';
-const UserResponseDashboard: React.FC = () => {
+const UserCommentsDashboard: React.FC = () => {
   const { userCommentsData } = useUserCommentsContext();
 const calculateTotalTokensUsed = () => {
   let totalTokensUsed = 0;
@@ -11,7 +11,7 @@ const calculateTotalTokensUsed = () => {
 };
 
 const totalTokensUsed = calculateTotalTokensUsed();
-
+console.log(userCommentsData)
   return (
     <div className="min-h-screen container mx-auto ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
       <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
@@ -32,15 +32,15 @@ const totalTokensUsed = calculateTotalTokensUsed();
                 <ul className="">
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Email: </b>
-                    {response.email}
+                    {response?.email}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Prompt: </b>
-                    {response.prompt}
+                    {response?.prompt}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Selected Title: </b>
-                    {response.selectedTitle}
+                    {response?.selectedTitle}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Total Tokens Used: </b>
@@ -60,4 +60,4 @@ const totalTokensUsed = calculateTotalTokensUsed();
   );
 };
 
-export default UserResponseDashboard;
+export default UserCommentsDashboard;
