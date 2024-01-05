@@ -119,10 +119,18 @@ const SpecificUserComments: React.FC = () => {
                         <b> Email: </b>
                         {response?.email}
                       </li>
-                      <li className="border-b border-solid border-blue-500 my-2">
-                        <b> SelectedTitle: </b>
-                        {response?.selectedTitle}
-                      </li>
+                     <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Language: </b>
+                    {response?.language}
+                  </li>
+                  <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Selected Product: </b>
+                    {response?.product}
+                  </li>
+                  <li className="border-b border-solid border-blue-500 my-2">
+                    <b> Prompt: </b>
+                    {response?.prompt}
+                  </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Total Tokens Used: </b>
                         {response?.totalTokensUsed}

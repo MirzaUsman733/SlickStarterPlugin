@@ -107,7 +107,7 @@ const GptComments: React.FC<CommentGptPromptProps> = ({
   }, [commentsGenerated]);
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-center mb-4">
+      <div className="flex items-center mb-4 justify-center">
         <label htmlFor="prompt" className="me-4 text-lg">
           Enter the Product Name:{' '}
         </label>

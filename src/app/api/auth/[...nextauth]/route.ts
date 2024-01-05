@@ -26,8 +26,19 @@ export const authOptions: any = {
               user.password
             );
             if (isPasswordCorrect) {
-              return user;
+              if (user.approved) {
+                return user;
+              } else {
+                // User is not approved, return appropriate error message
+                throw new Error('Admin approval pending');
+              }
+            } else {
+              // Incorrect password, return appropriate error message
+              throw new Error('User Password is incorrect');
             }
+          } else {
+            // User not found or invalid credentials, return appropriate error message
+            throw new Error('Invalid email or password');
           }
         } catch (err: any) {
           throw new Error(err);
@@ -52,12 +63,20 @@ export const authOptions: any = {
             const newUser = new User({
               email: user.email,
               role: 'user',
+              approved: false,
             });
 
             await newUser.save();
-            return true;
+            return false;
+          } else {
+            if (existingUser.approved) {
+              return true; // Approved users can sign in
+            } else {
+              // User exists but is not approved
+              console.log('User approval pending');
+              return false;
+            }
           }
-          return true;
         } catch (err) {
           console.log('Error saving user', err);
           return false;

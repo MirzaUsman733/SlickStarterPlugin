@@ -48,8 +48,6 @@ h2 {
   justify-content: space-between;
 }
 
-/* Add this to your existing CSS file or create a new one */
-
 .loading-overlay {
   position: fixed;
   top: 0;
@@ -57,44 +55,29 @@ h2 {
   width: 100%;
   height: 100%;
   background: rgba(255, 255, 255, 0.8);
-  /* Semi-transparent white overlay */
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  /* Ensure the overlay appears above other content */
 }
 
-/* Add these styles to your existing CSS or use a separate CSS file */
 .loader-container {
   position: relative;
   text-align: center;
 }
 
 .loader {
-  /* border: 16px solid #f3f3f3; /* Light grey */
-  /* border-top: 16px solid #3498db; Blue */
-  /* border-radius: 50%;
-  width: 120px;
-  height: 120px;
-  animation: spin 1s linear infinite;
-  margin: 20px auto;  */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center
 }
 
-/* @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-} */
-
 .progress-bar-container {
   position: relative;
   width: 100%;
   height: 20px;
-  background-color: #f3f3f3; /* Light grey */
+  background-color: #f3f3f3;
   border-radius: 10px;
   margin-top: 20px;
 }
@@ -102,7 +85,7 @@ h2 {
 .progress-bar {
   height: 100%;
   border-radius: 8px;
-  background-color: #3498db; /* Blue */
+  background-color: #3498db;
   transition: width 0.3s ease-in-out;
 }
 
@@ -114,6 +97,24 @@ h2 {
   color: #333;
   font-weight: bold;
 }
+.divStyle {
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+}
 
+.heading1 {
+  font-size: 95px;
+  font-family: serif;
+  font-weight: bold;
+}
 
-/* Add any additional styling for your loader, input, and buttons */
+.paragraph {
+  font-size: 25px;
+  margin-top: 20px;
+}
+
+.divBtn {
+  margin-top: 20px;
+  width: 20%;
+}

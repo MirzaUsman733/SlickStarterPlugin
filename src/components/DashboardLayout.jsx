@@ -1,19 +1,18 @@
 
 "use client"
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import {
   AiOutlineCalendar,
 } from "react-icons/ai";
-import { MdOutlineToday } from "react-icons/md";
-import { BsChevronDoubleRight, BsSticky } from "react-icons/bs";
-import { signOut, useSession } from "next-auth/react";
+import { MdOutlineToday,MdOutlinePrecisionManufacturing } from "react-icons/md";
+import { signOut } from "next-auth/react";
 import { GoSignOut } from "react-icons/go";
+import { FaHome, FaUser } from "react-icons/fa";
 import {
   Layout,
   Menu,
   Button,
-  theme,
 } from "antd";
 import Link from "next/link";
 const { Sider } = Layout;
@@ -32,7 +31,7 @@ export default function DashboardLayout() {
         >
           <div className="demo-logo-vertical pt-3 ps-3 mt-3" />
           <div className="toggleDiv">
-            <h3 className="tsk text-white text-xl">Dashboard</h3>
+            <h3 className="tsk text-white text-xl">Links</h3>
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -51,7 +50,7 @@ export default function DashboardLayout() {
             items={[
               {
                 key: "/",
-                icon: <BsChevronDoubleRight />,
+                icon: <FaHome />,
                 label: (
                   <Link href="/dashboard/" className="text-decoration-none">
                     Home
@@ -59,17 +58,26 @@ export default function DashboardLayout() {
                 ),
               },
               {
+                key: "/unapproved",
+                icon: <FaHome />,
+                label: (
+                  <Link href="/dashboard/unapproved" className="text-decoration-none">
+                    unapproved
+                  </Link>
+                ),
+              },
+              {
                 key: "/users",
-                icon: <MdOutlineToday />,
+                icon: <FaUser />,
                 label: (
                   <Link href="/dashboard/users" className="text-decoration-none">
-                    User Article Data
+                    User Article
                   </Link>
                 ),
               },
               {
                 key: "/todayResponses",
-                icon: <AiOutlineCalendar />,
+                icon: <MdOutlineToday />,
                 label: (
                   <Link href="/dashboard/todayResponses" className="text-decoration-none">
                     Today Articles
@@ -78,7 +86,7 @@ export default function DashboardLayout() {
               },
               {
                 key: "/calender",
-                icon: <BsSticky />,
+                icon: <AiOutlineCalendar />,
                 label: (
                   <Link href="/dashboard/calenderResponse" className="text-decoration-none">
                     Article Calendar
@@ -87,25 +95,25 @@ export default function DashboardLayout() {
               },
                {
                 key: "/specific",
-                icon: <BsSticky />,
+                icon: <MdOutlinePrecisionManufacturing  />,
                 label: (
                   <Link href="/dashboard/specific" className="text-decoration-none">
-                    Specific User Article
+                    Specific Article
                   </Link>
                 ),
               },
               {
                 key: "/commentsData",
-                icon: <BsSticky />,
+                icon: <FaUser />,
                 label: (
                   <Link href="/dashboard/commentsData" className="text-decoration-none">
-                    User Comments Data
+                    User Comments
                   </Link>
                 ),
               },
               {
                 key: "/todayComments",
-                icon: <BsSticky />,
+                icon: <MdOutlineToday />,
                 label: (
                   <Link href="/dashboard/todayComments" className="text-decoration-none">
                     Today Comments
@@ -114,7 +122,7 @@ export default function DashboardLayout() {
               },
                 {
                 key: "/calenderComments",
-                icon: <BsSticky />,
+                icon: <AiOutlineCalendar />,
                 label: (
                   <Link href="/dashboard/calenderComments" className="text-decoration-none">
                     Comments Calendar 
@@ -123,10 +131,10 @@ export default function DashboardLayout() {
               },
                 {
                 key: "/specificUserComments",
-                icon: <BsSticky />,
+                icon: <MdOutlinePrecisionManufacturing  />,
                 label: (
                   <Link href="/dashboard/specificUserComments" className="text-decoration-none">
-                    Today Comments
+                    Specific Comments
                   </Link>
                 ),
               },

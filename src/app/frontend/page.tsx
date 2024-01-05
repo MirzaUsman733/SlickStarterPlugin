@@ -1,12 +1,13 @@
+"use client"
 import React from "react";
-import { getServerSession } from "next-auth";
+// import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ChatGptPrompt from "@/components/ChatGpt4";
-import GptComments from "@/components/GptComments";
+import { useUser } from "@/app/contexts/userData";
 const Page: React.FC = async () => {
-  
-  const session = await getServerSession();
-  if (!session) {
+    const { userWithEmail } = useUser();
+  // const session = await getServerSession();
+  if (!userWithEmail && userWithEmail?.approved !== true) {
     redirect("/");
   }
 
@@ -16,8 +17,8 @@ const Page: React.FC = async () => {
         Welcome to the Slick Starter Article Generator
       </h1>
       <ChatGptPrompt
-        userEmail={session?.user?.email}
-        userName={session?.user?.name}
+        userEmail={userWithEmail?.email}
+        userName={userWithEmail?.name}
       />
     </div>
   );

@@ -25,28 +25,29 @@ const Login = () => {
     const password = e.target[1].value;
 
     if (!isValidEmail(email)) {
-      setError("Email is invalid");
+      setError('Email is invalid');
       return;
     }
 
     if (!password || password.length < 8) {
-      setError("Password is invalid");
+      setError('Password is invalid');
       return;
     }
 
-    const res = await signIn("credentials", {
+    const res = await signIn('credentials', {
       redirect: false,
       email,
       password,
     });
 
     if (res?.error) {
-      setError("Invalid email or password");
-      if (res?.url) router.replace("/frontend");
+      setError(res.error);
+      if (res.url) router.replace('/frontend');
     } else {
-      setError("");
+      setError('');
     }
   };
+
 
   if (sessionStatus === "loading") {
     return <h1>Loading...</h1>;

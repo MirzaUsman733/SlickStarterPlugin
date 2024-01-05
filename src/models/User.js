@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
-    
     name: {
       type: String,
       required: true,
@@ -21,10 +20,14 @@ const userSchema = new Schema(
     role: {
       type: String,
       required: true,
-    }
+    },
+    approved: {
+      type: Boolean,
+      default: false, // Default to unapproved
+    },
   },
+  { versionKey: false },
   { timestamps: true },
-  { versionKey: false},
 );
 
 export default mongoose.models.User || mongoose.model("User", userSchema);

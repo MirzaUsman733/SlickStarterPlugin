@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: any) => {
-  const { name, email, password, role } = await request.json();
+  const { name, email, password, role, approved } = await request.json();
 
   await connect();
 
@@ -20,11 +20,14 @@ export const POST = async (request: any) => {
     email,
     password: hashedPassword,
     role,
+    approved: false,
   });
 
   try {
     await newUser.save();
-    return new NextResponse("user is registered", { status: 200 });
+    return new NextResponse('User is registered. Awaiting admin approval.', {
+      status: 200,
+    });
   } catch (err: any) {
     return new NextResponse(err, {
       status: 500,
