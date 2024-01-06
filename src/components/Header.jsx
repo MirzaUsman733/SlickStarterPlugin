@@ -62,7 +62,8 @@ export default function Header() {
             <>
               <li><Link href="/frontend">Home</Link></li>
               <li><Link href="/frontend/commentGenerated">Comments</Link></li>
-              <li><Link href="/frontend/history">History</Link></li>
+               <li><Link href="/frontend/history">A.History</Link></li>
+              <li><Link href="/frontend/commentsHistory">C.History</Link></li>
               {!session ? (
                 <>
                   <Link href="/login">
@@ -95,7 +96,8 @@ export default function Header() {
               <li><Link href="/dashboard">Dashboard</Link></li>
               <li><Link href="/frontend">Home</Link></li>
               <li><Link href="/frontend/commentGenerated">Comments</Link></li>
-              <li><Link href="/frontend/history">History</Link></li>
+              <li><Link href="/frontend/history">A.History</Link></li>
+              <li><Link href="/frontend/commentsHistory">C.History</Link></li>
               {!session ? (
                 <>
                   <Link href="/login">
@@ -122,7 +124,8 @@ export default function Header() {
             <>
               <li><Link href="/frontend">Home</Link></li>
               <li><Link href="/frontend/commentGenerated">Comments</Link></li>
-              <li><Link href="/frontend/history">History</Link></li>
+               <li><Link href="/frontend/history">A.History</Link></li>
+              <li><Link href="/frontend/commentsHistory">C.History</Link></li>
               {!session ? (
                 <>
                   <Link href="/login">

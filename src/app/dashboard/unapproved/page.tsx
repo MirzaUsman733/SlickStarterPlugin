@@ -18,7 +18,6 @@ const page = () => {
   ) {
     return (
       <div className="flex min-h-screen flex-col items-center">
-        Dashboard
         <div>
           <Approval />
         </div>

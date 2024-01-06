@@ -62,7 +62,7 @@ export default function DashboardLayout() {
                 icon: <FaHome />,
                 label: (
                   <Link href="/dashboard/unapproved" className="text-decoration-none">
-                    unapproved
+                    Unapproved Users
                   </Link>
                 ),
               },

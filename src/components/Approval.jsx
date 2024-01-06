@@ -49,10 +49,9 @@ const Approval = () => {
 
     return (
         <div>
-            <h1>Admin Dashboard</h1>
-            <div>
-                <h2>Unapproved Users</h2>
-                <table className="min-w-full divide-y divide-gray-200 text-center">
+            <div className="mt-10 bg-gray-300 bg-opacity-20 p-8 shadow-2xl">
+                <h2 className="text-center text-4xl font-bold mb-16">Unapproved Users</h2>
+                <table className="min-w-full divide-y divide-gray-200 text-center mt-20 ">
                     <thead>
                         <tr>
                             <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -66,6 +65,9 @@ const Approval = () => {
                             </th>
                             <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Role
+                            </th>
+                             <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Approval
                             </th>
                         </tr>
                     </thead>
@@ -85,6 +87,11 @@ const Approval = () => {
                         <td className="px-10 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 {user?.email}
+                            </div>
+                        </td>
+                           <td className="px-10 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                                {user?.role}
                             </div>
                         </td>
                         <td className="px-10 py-4 whitespace-nowrap">

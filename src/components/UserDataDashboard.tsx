@@ -51,6 +51,11 @@ const UserDataDashboard: React.FC = () => {
                       {user?.role}
                     </div>
                   </td>
+                    <td className="px-10 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">
+                      {user?.approved}
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
