@@ -18,36 +18,35 @@ export const authOptions: any = {
       },
       async authorize(credentials: any) {
         await connect();
-        try {
-          const user = await User.findOne({ email: credentials.email });
-          if (user) {
-            const isPasswordCorrect = await bcrypt.compare(
-              credentials.password,
-              user.password
-            );
-            if (isPasswordCorrect) {
-              if (user.approved) {
-                return user;
-              } else {
-                // User is not approved, return appropriate error message
-                throw new Error('Admin approval pending');
-              }
-            } else {
-              // Incorrect password, return appropriate error message
-              throw new Error('User Password is incorrect');
-            }
-          } else {
-            // User not found or invalid credentials, return appropriate error message
-            throw new Error('Invalid email or password');
-          }
-        } catch (err: any) {
-          throw new Error(err);
-        }
+           try {
+             const user = await User.findOne({ email: credentials.email });
+             if (user) {
+               const isPasswordCorrect = await bcrypt.compare(
+                 credentials.password,
+                 user.password
+               );
+               if (isPasswordCorrect && user.approved) {
+                 // Redirect to "/frontend" on successful authentication and approval
+                 return Promise.resolve(user);
+               } else if (!user.approved) {
+                 // User is not approved, return appropriate error message
+                 throw new Error('Admin approval pending');
+               } else {
+                 // Incorrect password, return appropriate error message
+                 throw new Error('User Password is incorrect');
+               }
+             } else {
+               // User not found or invalid credentials, return appropriate error message
+               throw new Error('Invalid email or password');
+             }
+           } catch (err: any) {
+             throw new Error(err);
+           }
       },
     }),
     GithubProvider({
-      clientId: process.env.GITHUB_ID ?? '',
-      clientSecret: process.env.GITHUB_SECRET ?? '',
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
     }),
   ],
   callbacks: {
@@ -70,9 +69,8 @@ export const authOptions: any = {
             return false;
           } else {
             if (existingUser.approved) {
-              return true; // Approved users can sign in
+              return true;
             } else {
-              // User exists but is not approved
               console.log('User approval pending');
               return false;
             }

@@ -26,8 +26,10 @@ const userSchema = new Schema(
       default: false, // Default to unapproved
     },
   },
-  { versionKey: false },
-  { timestamps: true },
+  {
+    versionKey: false,
+    timestamps: true, // Combine options into a single object
+  }
 );
 
 export default mongoose.models.User || mongoose.model("User", userSchema);
