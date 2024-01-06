@@ -13,13 +13,20 @@ const TodayResponses: React.FC = () => {
   };
 
   const todayResponses = userResponsesData?.filter((response: any) => isToday(new Date(response.currentTime)));
-
+const totalTokensUsed = todayResponses.reduce(
+    (totalTokens: number, response: any) =>
+      totalTokens + (response.totalTokensUsed || 0),
+    0
+  );
   return (
     <div className="min-h-screen container mx-auto  ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
       <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
         <h1 className="text-2xl font-bold mb-4 text-center">
           Today's Users Data
         </h1>
+         <h2 className="text-xl font-semibold mb-4 text-center">
+          Total Tokens Used: {totalTokensUsed}
+        </h2>
         <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
           {todayResponses?.map((response: any) => (
             <li key={response._id}>

@@ -2,28 +2,28 @@
 import React, { useEffect, useState } from 'react';
 import { useUserCommentsContext } from '@/app/contexts/UserCommentsContext';
 import { useUser } from '@/app/contexts/userData';
-const UserPersonalData: React.FC = () => {
+const UserPersonalComments: React.FC = () => {
   const { userWithEmail } = useUser();
   const { userCommentsData } = useUserCommentsContext();
-  const [selectedResponseData, setSelectedResponseData] = useState<
+  const [selectedCommentData, setSelectedCommentData] = useState<
     any[] | null
   >(null);
-  const [openArticleIds, setOpenArticleIds] = useState<string[]>([]);
+  const [openCommentIds, setOpenCommentIds] = useState<string[]>([]);
   useEffect(() => {
     if (userWithEmail && userCommentsData.length > 0) {
       const matchingResponses = userCommentsData?.filter(
         (response: any) => response?.id === userWithEmail?._id
       );
-      setSelectedResponseData(
+      setSelectedCommentData(
         matchingResponses?.length > 0 ? matchingResponses : null
       );
     } else {
-      setSelectedResponseData(null);
+      setSelectedCommentData(null);
     }
   }, [userCommentsData, userWithEmail]);
 
-  const handleReadArticle = (responseId: string) => {
-    setOpenArticleIds((prevIds) => {
+  const handleReadComment = (responseId: string) => {
+    setOpenCommentIds((prevIds) => {
       if (prevIds.includes(responseId)) {
         return prevIds?.filter((id) => id !== responseId);
       } else {
@@ -32,12 +32,12 @@ const UserPersonalData: React.FC = () => {
     });
   };
 
-  const isArticleOpen = (responseId: string) => {
-    return openArticleIds?.includes(responseId);
+  const isCommentOpen = (responseId: string) => {
+    return openCommentIds?.includes(responseId);
   };
 
-  const toggleArticleVisibility = (responseId: string) => {
-    setOpenArticleIds((prevIds) => {
+  const toggleCommentVisibility = (responseId: string) => {
+    setOpenCommentIds((prevIds) => {
       if (prevIds?.includes(responseId)) {
         return prevIds?.filter((id) => id !== responseId);
       } else {
@@ -51,10 +51,10 @@ const UserPersonalData: React.FC = () => {
         <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
           <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
             <h1 className="text-2xl font-bold mb-4 text-center">
-              User Responses Data
+              User Comments Data
             </h1>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {selectedResponseData?.map((response: any) => (
+              {selectedCommentData?.map((response: any) => (
                 <li key={response?._id}>
                   <div className="bg-white p-4 rounded-lg h-full">
                     <div className="flex justify-between items-center mb-2">
@@ -68,12 +68,16 @@ const UserPersonalData: React.FC = () => {
                         {response?.email}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                        <b> Prompt: </b>
-                        {response?.prompt}
+                        <b> Language: </b>
+                        {response?.language}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                        <b> SelectedTitle: </b>
-                        {response?.selectedTitle}
+                        <b> Selected Product: </b>
+                        {response?.product}
+                      </li>
+                      <li className="border-b border-solid border-blue-500 my-2">
+                        <b> Prompt: </b>
+                        {response?.prompt}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Total Tokens Used: </b>
@@ -84,19 +88,19 @@ const UserPersonalData: React.FC = () => {
                         {new Date(response.currentTime).toLocaleString()}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
-                        <b> Article : </b>
+                        <b> Comment : </b>
                         <button
-                          onClick={() => toggleArticleVisibility(response?._id)}
+                          onClick={() => toggleCommentVisibility(response?._id)}
                           className="my-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
                         >
-                          {isArticleOpen(response?._id)
+                          {isCommentOpen(response?._id)
                             ? 'Show Less'
-                            : 'Read Article'}
+                            : 'Read Comment'}
                         </button>
-                        {isArticleOpen(response?._id) && (
+                        {isCommentOpen(response?._id) && (
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: response.article,
+                              __html: response.comment,
                             }}
                             style={{ marginTop: '10px' }}
                           />
@@ -114,4 +118,4 @@ const UserPersonalData: React.FC = () => {
   );
 };
 
-export default UserPersonalData;
+export default UserPersonalComments;

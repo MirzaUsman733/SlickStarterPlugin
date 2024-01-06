@@ -52,13 +52,50 @@ const Approval = () => {
             <h1>Admin Dashboard</h1>
             <div>
                 <h2>Unapproved Users</h2>
-                {unapprovedUsers.map((user) => (
-                    <div key={user._id}>
-                        <p>Name: {user.name}</p>
-                        <p>Email: {user.email}</p>
-                        <button onClick={() => { approveUser(user._id) }}>Approve User</button>
-                    </div>
+                <table className="min-w-full divide-y divide-gray-200 text-center">
+                    <thead>
+                        <tr>
+                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                SR.NO
+                            </th>
+                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Role
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {unapprovedUsers.map((user, index) => (
+                    <tr key={user._id}>
+                        <td className="px-10 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                                {index + 1}
+                            </div>
+                        </td>
+                        <td className="px-10 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                                {user?.name}
+                            </div>
+                        </td>
+                        <td className="px-10 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                                {user?.email}
+                            </div>
+                        </td>
+                        <td className="px-10 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                                <button className="py-3 px-5 bg-blue-800 text-white rounded-full text-center" onClick={() => { approveUser(user._id) }}>Approve User</button>
+                            </div>
+                        </td>
+                    </tr>
                 ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
