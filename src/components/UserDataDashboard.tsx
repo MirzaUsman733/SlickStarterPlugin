@@ -10,20 +10,20 @@ const UserDataDashboard: React.FC = () => {
     <div>
       <div className="grid place-items-center h-screen ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl">
         <div className="shadow-2xl shadow-slate-700 text-black p-8 bg-opacity-20 bg-zince-300/10 flex flex-col gap-2 my-6">
-          <h1 className="text-2xl font-bold mb-4">All Users</h1>
+          <h1 className="text-4xl font-bold text-center mb-4">All Users</h1>
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   SR.NO
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Role
                 </th>
               </tr>

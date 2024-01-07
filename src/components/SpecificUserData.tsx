@@ -88,7 +88,7 @@ const SpecificUserData: React.FC = () => {
       <div className="ms-32">
         <div className="min-h-screen container mx-auto ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
           <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
-            <h1 className="text-2xl font-bold mb-4 text-center">
+            <h1 className="text-4xl font-bold mb-4 text-center">
               User Responses Data
             </h1>
             {totalTokensUsed !== null && (
@@ -118,6 +118,14 @@ const SpecificUserData: React.FC = () => {
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> Email: </b>
                         {response?.email}
+                      </li>
+                       <li className="border-b border-solid border-blue-500 my-2">
+                        <b> Prompt: </b>
+                        {response?.prompt}
+                      </li>
+                      <li className="border-b border-solid border-blue-500 my-2">
+                        <b> Language: </b>
+                        {response?.language}
                       </li>
                       <li className="border-b border-solid border-blue-500 my-2">
                         <b> SelectedTitle: </b>

@@ -25,7 +25,7 @@ const CalenderResponse: React.FC = () => {
   return (
     <div className="min-h-screen container mx-auto ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
       <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
-        <h1 className="text-2xl font-bold mb-4 text-center">
+        <h1 className="text-4xl font-bold mb-4 text-center">
           Selected Date Users Data
         </h1>
         <div style={{ width: '100%' }}>
@@ -52,6 +52,10 @@ const CalenderResponse: React.FC = () => {
                     <b> Prompt: </b>
                     {response.prompt}
                   </li>
+                  <li className="border-b border-solid border-blue-500 my-2">
+                        <b> Language: </b>
+                        {response?.language}
+                      </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Selected Title: </b>
                     {response.selectedTitle}

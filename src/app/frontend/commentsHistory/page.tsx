@@ -12,7 +12,7 @@ const Page: React.FC = async () => {
   return (
     <div className="container-lg mx-auto">
       <h1 className="text-center text-4xl font-bold my-4">
-        Welcome to the Slick Starter User Personal Data
+        User Comments Data
       </h1>
       <UserPersonalComments />
     </div>

@@ -48,11 +48,11 @@ const UserPersonalComments: React.FC = () => {
   return (
     <div>
       <div>
-        <div className="min-h-screen container mx-auto max-w-screen-xl flex items-center justify-center">
-          <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2">
-            <h1 className="text-2xl font-bold mb-4 text-center">
+        <div className="min-h-screen container mx-auto max-w-screen-xl flex justify-center mt-28">
+          <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2" style={{minWidth: "80vw"}}>
+            {/* <h1 className="text-2xl font-bold mb-4 text-center">
               User Comments Data
-            </h1>
+            </h1> */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {selectedCommentData?.map((response: any) => (
                 <li key={response?._id}>
@@ -100,7 +100,7 @@ const UserPersonalComments: React.FC = () => {
                         {isCommentOpen(response?._id) && (
                           <div
                             dangerouslySetInnerHTML={{
-                              __html: response.comment,
+                              __html: response.comments,
                             }}
                             style={{ marginTop: '10px' }}
                           />
