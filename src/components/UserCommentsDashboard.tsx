@@ -14,13 +14,12 @@ const totalTokensUsed = calculateTotalTokensUsed();
 console.log(userCommentsData)
   return (
     <div className="min-h-screen container mx-auto ms-32 max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-xl flex items-center justify-center">
-      <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2 min-w-full">
-        <h1 className="text-4xl font-bold mb-4 text-center">All Users Data</h1>
+      <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2 min-w-full my-6">
+        <h1 className="text-3xl font-bold mb-4 text-center">All Users Comments Data</h1>
         <div className="mb-4">
-          <h2 className="text-lg font-bold">Total Tokens Used:</h2>
-          <p>{totalTokensUsed}</p>
+          <h2 className="text-lg font-bold text-center">Total Tokens Used: {totalTokensUsed}</h2>
         </div>
-        <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
+        <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
           {userCommentsData?.map((response: any) => (
             <li key={response._id}>
               <div className="bg-white p-4 rounded-lg h-full">
@@ -45,10 +44,6 @@ console.log(userCommentsData)
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Prompt: </b>
                     {response?.prompt}
-                  </li>
-                  <li className="border-b border-solid border-blue-500 my-2">
-                    <b> Selected Title: </b>
-                    {response?.selectedTitle}
                   </li>
                   <li className="border-b border-solid border-blue-500 my-2">
                     <b> Total Tokens Used: </b>

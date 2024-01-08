@@ -29,10 +29,12 @@ const totalTokensUsed = selectedDateResponses.reduce(
         <div style={{ width: "100%" }}>
           <Calendar fullscreen={false} onSelect={handleDateSelect} />
         </div>
+        {totalTokensUsed > 1 ? (
           <h2 className="text-xl font-semibold mb-4 text-center">
           Total Tokens Used: {totalTokensUsed}
         </h2>
-       <ul className="grid grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2 gap-4">
+):""}
+       <ul className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4">
           {selectedDateResponses.map((response: any) => (
             <li key={response._id}>
               <div className="bg-white p-4 rounded-lg h-full">

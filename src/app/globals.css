@@ -118,3 +118,14 @@ h2 {
   margin-top: 20px;
   width: 20%;
 }
+
+@media screen and (max-width: 1300px) {
+  .divBtn {
+  width: 30%;
+}
+}
+@media screen and (max-width: 992px) {
+  .divBtn {
+  width: 40%;
+}
+}

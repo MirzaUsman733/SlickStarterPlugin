@@ -33,7 +33,7 @@ export default function Home() {
                 </p>
                 <Link
                   href="/frontend"
-                  className="animate__animated animate__backInLeft divBtn py-3 px-5  bg-blue-800 text-white rounded-full text-center"
+                  className="animate__animated animate__backInLeft divBtn py-3 px-5 bg-blue-800 text-white rounded-full text-center"
                 >
                   Get Started
                 </Link>

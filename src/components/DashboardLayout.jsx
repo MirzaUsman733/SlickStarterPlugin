@@ -9,6 +9,8 @@ import { MdOutlineToday, MdOutlinePrecisionManufacturing } from "react-icons/md"
 import { signOut } from "next-auth/react";
 import { GoSignOut } from "react-icons/go";
 import { FaHome, FaUser, FaRegThumbsDown } from "react-icons/fa";
+import { IoIosFastforward } from "react-icons/io";
+
 import {
   Layout,
   Menu,
@@ -138,7 +140,17 @@ export default function DashboardLayout() {
                     </Link>
                   ),
                 },
+                 {
+                  key: "/specificUserComments",
+                   icon: <IoIosFastforward />,
+                  label: (
+                    <Link href="/frontend" className="text-decoration-none">
+                      Go to Frontend
+                    </Link>
+                  ),
+                },
               ]}
+              
             />
             <button
               onClick={() => {

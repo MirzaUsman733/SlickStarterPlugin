@@ -49,24 +49,24 @@ const Approval = () => {
 
     return (
         <div>
-            <div className="mt-10 bg-gray-300 bg-opacity-20 p-8 shadow-2xl">
+            <div className="mt-10 ms-32 bg-gray-300 bg-opacity-20 p-8 shadow-2xl">
                 <h2 className="text-center text-4xl font-bold mb-16">Unapproved Users</h2>
                 <table className="min-w-full divide-y divide-gray-200 text-center mt-20 ">
                     <thead>
                         <tr>
-                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 SR.NO
                             </th>
-                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Name
                             </th>
-                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Email
                             </th>
-                            <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Role
                             </th>
-                             <th className="px-10 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                             <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Approval
                             </th>
                         </tr>
@@ -74,27 +74,27 @@ const Approval = () => {
                     <tbody>
                 {unapprovedUsers.map((user, index) => (
                     <tr key={user._id}>
-                        <td className="px-10 py-4 whitespace-nowrap">
+                        <td className="px-5 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 {index + 1}
                             </div>
                         </td>
-                        <td className="px-10 py-4 whitespace-nowrap">
+                        <td className="px-5 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 {user?.name}
                             </div>
                         </td>
-                        <td className="px-10 py-4 whitespace-nowrap">
+                        <td className="px-5 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 {user?.email}
                             </div>
                         </td>
-                           <td className="px-10 py-4 whitespace-nowrap">
+                           <td className="px-5 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 {user?.role}
                             </div>
                         </td>
-                        <td className="px-10 py-4 whitespace-nowrap">
+                        <td className="px-5 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
                                 <button className="py-3 px-5 bg-blue-800 text-white rounded-full text-center" onClick={() => { approveUser(user._id) }}>Approve User</button>
                             </div>
