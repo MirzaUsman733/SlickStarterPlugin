@@ -49,10 +49,7 @@ const UserPersonalData: React.FC = () => {
     <div>
       <div>
         <div className="min-h-screen container mx-auto max-w-screen-xl flex justify-center mt-28">
-          <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black flex flex-col gap-2" style={{minWidth: "80vw"}}>
-            {/* <h1 className="text-2xl font-bold mb-4 text-center">
-              User Responses Data
-            </h1> */}
+          <div className="bg-gray-300 bg-opacity-20 p-8 shadow-2xl text-black gap-2 min-w-[80vw] ">
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {selectedResponseData?.map((response: any) => (
                 <li key={response._id}>
