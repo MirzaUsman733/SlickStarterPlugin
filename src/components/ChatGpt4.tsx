@@ -302,34 +302,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   type HeadingSizes = {
     [key: string]: string;
   };
-
-  const stripHtmlTagsWithHeadings = (htmlString: string) => {
-    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
-    const body = doc.body;
-
-    const headingSizes: HeadingSizes = {
-      h1: '32px',
-      h2: '30px',
-      h3: '28px',
-      h4: '26px',
-      h5: '24px',
-      h6: '22px',
-    };
-
-    // Iterate through headings and update font size
-    const headings = body.querySelectorAll('h1, h2, h3, h4, h5, h6');
-    headings.forEach((heading) => {
-      const headingElement = heading as HTMLElement;
-      const tagName = headingElement.tagName.toLowerCase();
-      const fontSize = headingSizes[tagName];
-
-      if (fontSize) {
-        headingElement.style.fontSize = fontSize;
-      }
-    });
-
-    return body.textContent || '';
-  };
+  
   const copyToClipboard = async () => {
     try {
       const container = document.getElementById('generatedContentContainer');
