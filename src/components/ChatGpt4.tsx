@@ -1,12 +1,12 @@
-"use client";
-import React, { useState, useEffect, useRef } from "react";
-import { MutatingDots } from "react-loader-spinner";
-import { useUser } from "@/app/contexts/userData";
+'use client';
+import React, { useState, useEffect, useRef } from 'react';
+import { MutatingDots } from 'react-loader-spinner';
+import { useUser } from '@/app/contexts/userData';
 interface ChatGptPromptProps {
   userEmail: string | null | undefined;
   userName: string | null | undefined;
 }
-import axios from "axios";
+import axios from 'axios';
 const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   userEmail,
   userName,
@@ -14,26 +14,26 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   const [loading, setLoading] = useState(false);
   const [totalTokensUsed, setTotalTokensUsed] = useState<number>(0);
   const [tokensUsedPerPrompt, setTokensUsedPerPrompt] = useState<number[]>([]);
-  const [response, setResponse] = useState<string>("");
-  const [prompt, setPrompt] = useState<string>("");
-  const [originalPrompt, setOriginalPrompt] = useState<string>("");
+  const [response, setResponse] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>('');
+  const [originalPrompt, setOriginalPrompt] = useState<string>('');
   const [articleGenerated, setArticleGenerated] = useState<boolean>(false);
   const [outlines, setOutlines] = useState<string[]>([]);
-  const [selectedTitle, setSelectedTitle] = useState<string>("");
+  const [selectedTitle, setSelectedTitle] = useState<string>('');
   const [loadingProgress, setLoadingProgress] = useState<number>(0);
-   const [selectedLanguage, setSelectedLanguage] = useState<string>("");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('');
   const [responsesData, setResponsesData] = useState<
     { prompt: string; selectedTitle: string; totalUsedToken: number }[]
   >([]);
   const updateTotalTokensUsed = (tokens: number) => {
     setTotalTokensUsed((prevTotalTokensUsed) => prevTotalTokensUsed + tokens);
   };
-   const languageAddOn =
-   selectedLanguage !== "English" ? `${selectedLanguage}` : "";
+  const languageAddOn =
+    selectedLanguage !== 'English' ? `${selectedLanguage}` : '';
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
-  const selectedTitleRef = useRef<string>("");
+  const selectedTitleRef = useRef<string>('');
   const totalTokenRef = useRef<number>(0);
-  const articleGeneratedRef = useRef<string>("");
+  const articleGeneratedRef = useRef<string>('');
   const { userWithEmail } = useUser();
 
   if (articleGenerated) {
@@ -42,20 +42,25 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   }
   const fetchOpenAIResponse = async () => {
     try {
+      setLoading(true);
       if (!prompt.trim()) {
         return;
       }
 
       const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-      const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
-
+      const openaiEndpoint = 'https://api.openai.com/v1/chat/completions';
+      const progressInterval = setInterval(() => {
+        if (loadingProgress < 80) {
+          setLoadingProgress((prevProgress) => prevProgress + 20);
+        }
+      }, 5000);
       const { data } = await axios.post(
         openaiEndpoint,
         {
-          model: "gpt-4",
+          model: 'gpt-4',
           messages: [
             {
-              role: "user",
+              role: 'user',
               content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number and the language is [${languageAddOn}]`,
             },
           ],
@@ -67,11 +72,13 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
         }
       );
+      clearInterval(progressInterval);
+      setLoadingProgress(100);
       setResponse(data.choices[0].message.content);
       const tokensUsedInResponse = data.usage.total_tokens;
       setTokensUsedPerPrompt((prevTokens) => [
@@ -82,10 +89,12 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       setOriginalPrompt(prompt);
       setResponsesData((prevData) => [
         ...prevData,
-        { prompt, selectedTitle: "", totalUsedToken: 0 },
+        { prompt, selectedTitle: '', totalUsedToken: 0 },
       ]);
+      setLoading(false);
+      setLoadingProgress(0);
     } catch (error) {
-      console.error("Error fetching OpenAI response:", error);
+      console.error('Error fetching OpenAI response:', error);
     }
   };
 
@@ -96,15 +105,15 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       }
 
       const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-      const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
+      const openaiEndpoint = 'https://api.openai.com/v1/chat/completions';
 
       const { data } = await axios.post(
         openaiEndpoint,
         {
-          model: "gpt-4",
+          model: 'gpt-4',
           messages: [
             {
-              role: "user",
+              role: 'user',
               content: `write the 10 titles that cannot start with the numbers on "${prompt}" the title are fully seo based and the output of any line cannot start with any number  and the language is [${languageAddOn}]`,
             },
           ],
@@ -116,7 +125,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
         }
@@ -130,8 +139,9 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       ]);
       updateTotalTokensUsed(tokensUsedInResponse);
       setOriginalPrompt(prompt);
+      setLoading(false);
     } catch (error) {
-      console.error("Error fetching OpenAI response:", error);
+      console.error('Error fetching OpenAI response:', error);
     }
   };
 
@@ -143,16 +153,16 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       }
 
       const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
-      const openaiEndpoint = "https://api.openai.com/v1/chat/completions";
+      const openaiEndpoint = 'https://api.openai.com/v1/chat/completions';
 
       // Step 1: Get outlines
       const { data: outlinesData } = await axios.post(
         openaiEndpoint,
         {
-          model: "gpt-4",
+          model: 'gpt-4',
           messages: [
             {
-              role: "user",
+              role: 'user',
               content: `write the 10 outline that cannot start with the numbers on:  "${selectedTitle}" only give me outlines not sub outlines and the language is [${languageAddOn}]`,
             },
           ],
@@ -164,12 +174,12 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         },
         {
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${apiKey}`,
           },
         }
       );
-      const outlines = outlinesData.choices[0].message.content.split("\n");
+      const outlines = outlinesData.choices[0].message.content.split('\n');
       const tokensUsedInResponse = outlinesData.usage.total_tokens;
       setTokensUsedPerPrompt((prevTokens) => [
         ...prevTokens,
@@ -194,10 +204,10 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         const { data } = await axios.post(
           openaiEndpoint,
           {
-            model: "gpt-4",
+            model: 'gpt-4',
             messages: [
               {
-                role: "user",
+                role: 'user',
                 content: `write the content as an IT Expert and the outline is show on the top in h2 tag and the outline heading cannot be start with number for:  "${outline}" in 300 words that is 15 year old understandable and the must output in the html tags  and the language is [${languageAddOn}]`,
               },
             ],
@@ -209,7 +219,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
           },
           {
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
               Authorization: `Bearer ${apiKey}`,
             },
           }
@@ -230,7 +240,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
         setLoadingProgress(progressPercentage);
       }
       setLoadingProgress(100);
-      setResponse(responses.join("\n"));
+      setResponse(responses.join('\n'));
       setOriginalPrompt(selectedTitle);
       setArticleGenerated(true);
       const updatedDataAfterGettingAllToken = responsesData.map((dataItem) =>
@@ -241,15 +251,15 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       setResponsesData(updatedDataAfterGettingAllToken);
       setLoading(false);
     } catch (error) {
-      console.error("Error generating article:", error);
+      console.error('Error generating article:', error);
     }
   };
   const storeResponsesData = async () => {
     try {
-      const response = await fetch("/api/storeResponsesData", {
-        method: "POST",
+      const response = await fetch('/api/storeResponsesData', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           id: userWithEmail._id,
@@ -266,9 +276,9 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       if (!response.ok) {
         throw new Error(`Failed to store data: ${response.statusText}`);
       }
-      console.log("Data submitted successfully");
+      console.log('Data submitted successfully');
     } catch (error) {
-      console.error("Error storing data:", error);
+      console.error('Error storing data:', error);
     }
   };
   useEffect(() => {
@@ -294,20 +304,20 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
   };
 
   const stripHtmlTagsWithHeadings = (htmlString: string) => {
-    const doc = new DOMParser().parseFromString(htmlString, "text/html");
+    const doc = new DOMParser().parseFromString(htmlString, 'text/html');
     const body = doc.body;
 
     const headingSizes: HeadingSizes = {
-      h1: "32px",
-      h2: "30px",
-      h3: "28px",
-      h4: "26px",
-      h5: "24px",
-      h6: "22px",
+      h1: '32px',
+      h2: '30px',
+      h3: '28px',
+      h4: '26px',
+      h5: '24px',
+      h6: '22px',
     };
 
     // Iterate through headings and update font size
-    const headings = body.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    const headings = body.querySelectorAll('h1, h2, h3, h4, h5, h6');
     headings.forEach((heading) => {
       const headingElement = heading as HTMLElement;
       const tagName = headingElement.tagName.toLowerCase();
@@ -318,25 +328,30 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       }
     });
 
-    return body.textContent || "";
+    return body.textContent || '';
   };
-
   const copyToClipboard = async () => {
     try {
-      const container = document.getElementById("generatedContentContainer");
+      const container = document.getElementById('generatedContentContainer');
 
       if (container) {
-        const textContentWithHeadings = stripHtmlTagsWithHeadings(
-          container.innerHTML
-        );
-        await navigator.clipboard.writeText(textContentWithHeadings);
-        setCopyStatus("Copied text content with headings to clipboard!");
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(container);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+
+        document.execCommand('copy');
+
+        selection?.removeAllRanges();
+
+        setCopyStatus('Copied content to clipboard!');
       } else {
-        setCopyStatus("No content to copy!");
+        setCopyStatus('No content to copy!');
       }
     } catch (err) {
-      console.error("Error copying to clipboard:", err);
-      setCopyStatus("Failed to copy to clipboard");
+      console.error('Error copying to clipboard:', err);
+      setCopyStatus('Failed to copy to clipboard');
     }
 
     setTimeout(() => {
@@ -348,7 +363,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
     <div className="container mx-auto p-4">
       <div className="flex items-center mb-4 justify-center">
         <label htmlFor="prompt" className="me-4 text-lg">
-          Enter the Keyword for given titles:{" "}
+          Enter the Keyword for given titles:{' '}
         </label>
         <input
           disabled={articleGenerated}
@@ -423,7 +438,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
       {originalPrompt && (
         <div className="bg-white shadow-md rounded p-4 my-3 ">
           <ul className="list-none list-inside">
-            {originalPrompt.split("\n").map((line, index) => (
+            {originalPrompt.split('\n').map((line, index) => (
               <h1 className="bg-gray-200 p-2 mb-2 rounded" key={index}>
                 {line}
               </h1>
@@ -440,7 +455,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
                 className="list-group-item mb-2"
                 key={index}
                 style={{
-                  listStyleType: "none",
+                  listStyleType: 'none',
                 }}
               >
                 {outline}
@@ -455,7 +470,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
             Generated Titles
           </h2>
           <ul className="list-none list-inside">
-            {response.split("\n").map((title, index) => (
+            {response.split('\n').map((title, index) => (
               <li
                 key={index}
                 className="cursor-pointer py-3 text-blue-700 list-group-item text-xl"
@@ -473,7 +488,7 @@ const ChatGptPrompt: React.FC<ChatGptPromptProps> = ({
             id="generatedContentContainer"
             className=""
             dangerouslySetInnerHTML={{ __html: response }}
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: '10px' }}
           />
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
