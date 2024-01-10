@@ -1,8 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-// import { ColorRing } from "react-loader-spinner";
-import Header from "@/components/Header";
 import Link from "next/link";
+import Header from '@/components/Header';
 
 export default function Home() {
 
