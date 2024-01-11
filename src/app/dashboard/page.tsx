@@ -6,14 +6,18 @@ import { useUser } from "@/app/contexts/userData";
 import { useUserResponsesContext } from "@/app/contexts/UserResponsesContext";
 import { useUserDataContext } from "@/app/contexts/UserDataContext";
 import UserDataDashboard from "@/components/UserDataDashboard";
-const Dashboard = () => {
+
+const Dashboard: React.FC = () => {
   const { userWithEmail } = useUser();
   const { userResponsesData } = useUserResponsesContext();
+
   if (!userWithEmail) {
     redirect("/login");
+    return null;
   }
 
   const userEmail = userWithEmail?.email;
+
   if (
     userEmail !== undefined &&
     userEmail !== null &&
@@ -22,27 +26,14 @@ const Dashboard = () => {
     return (
       <div className="flex min-h-screen flex-col items-center justify-between max-w-screen-2xl">
         <div>
-          <UserDataDashboard/>
+          <UserDataDashboard />
         </div>
       </div>
     );
   } else {
     redirect("/frontend");
-    return null; 
+    return null;
   }
 };
 
 export default Dashboard;
-
-
-
-
-
-
-
-
-
-
-
-
-

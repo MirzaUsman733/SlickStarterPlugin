@@ -4,13 +4,16 @@ import { redirect } from "next/navigation";
 import UserResponseDashboard from "@/components/UserResponseDashboard";
 import { useUser } from "@/app/contexts/userData";
 
-const page = () => {
+const Page: React.FC = () => {
   const { userWithEmail } = useUser();
+
   if (!userWithEmail) {
     redirect("/login");
+    return null;
   }
 
   const userEmail = userWithEmail?.email;
+
   if (
     userEmail !== undefined &&
     userEmail !== null &&
@@ -24,11 +27,9 @@ const page = () => {
       </div>
     );
   } else {
-  redirect("/frontend");
-  return null;
-}
+    redirect("/frontend");
+    return null;
+  }
 };
 
-export default page;
-
-
+export default Page;
