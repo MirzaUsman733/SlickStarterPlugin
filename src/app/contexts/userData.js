@@ -1,4 +1,3 @@
-// UserContext.js
 "use client"
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { getSession } from 'next-auth/react';
