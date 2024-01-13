@@ -399,7 +399,7 @@ export default function Header(props: HeaderProps): JSX.Element {
                   signOut();
                 }}
                 className={`p-2 px-5 -mt-2 rounded-full ${
-                  isAdmin ? 'bg-blue-800 text-white' : 'bg-white text-black'
+                  isAdmin ? 'bg-blue-800 text-white' : 'bg-blue-800 text-white'
                 }`}
               >
                 Logout
