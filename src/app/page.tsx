@@ -7,19 +7,6 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col">
-      {/* {loading ? ( */}
-        {/* <div className="min-h-[100vh] flex flex-col justify-center items-center">
-        <ColorRing
-  visible={true}
-  height="200"
-  width="200"
-  ariaLabel="color-ring-loading"
-  wrapperStyle={{}}
-  wrapperClass="color-ring-wrapper"
-  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-  />
-  </div>
-      ) : ( */}
         <>
           <Header />
           <div className="container mx-auto">
@@ -40,7 +27,6 @@ export default function Home() {
             </div>
           </div>
         </>
-      {/* )} */}
     </main>
   );
 }
